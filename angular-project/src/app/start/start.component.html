@@ -1,0 +1,15 @@
+<button kendoButton (click)="onButtonClick()" [icon]="'login'" [look]="'outline'">Iniciar sesión</button>
+<button kendoButton (click)="onButtonClick()" [icon]="'user'" [look]="'outline'">Registrarse</button>
+
+<kendo-scrollview #sv
+  [data]="items"
+  [width]="width"
+  [height]="height"
+  [animate]="true"
+  [arrows]="true"
+  [pageable]="true"
+  [endless]="true">
+    <ng-template let-item="item">
+        <img src='{{item.url}}' alt='{{item.title}}' [ngStyle]="{minWidth: width}" draggable="false" />
+    </ng-template>
+</kendo-scrollview>
