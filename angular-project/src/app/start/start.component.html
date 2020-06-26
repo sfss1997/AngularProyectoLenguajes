@@ -1,108 +1,14 @@
-<button kendoButton [icon]="'login'" [look]="'outline'" *ngIf="!opened" (click)="open()">Iniciar sesión</button>
-<button kendoButton [icon]="'user'" [look]="'outline'"  ng-show="win2visible" ng-click="win2.open()">Registrarse</button>
+<button kendoButton [icon]="'user'" [look]="'outline'" (click)="registerStudent()">Registrarse</button>
+<button kendoButton [icon]="'login'" [look]="'outline'" (click)="login()">Iniciar sesión</button>
 
-<kendo-scrollview #sv
-  [data]="items"
-  [width]="width"
-  [height]="height"
-  [animate]="true"
-  [arrows]="true"
-  [pageable]="true"
-  [endless]="true">
+<!-- Carrusel -->
+<kendo-scrollview #sv [data]="items" [width]="width" [height]="height" [animate]="true" [arrows]="true"
+    [pageable]="true" [endless]="true">
     <ng-template let-item="item">
         <img src='{{item.url}}' alt='{{item.title}}' [ngStyle]="{minWidth: width}" draggable="false" />
     </ng-template>
 </kendo-scrollview>
 
-<!-- Registrar estudiante -->
-<div class="k-overlay" *ngIf="opened"></div>
-<div>
-    <kendo-window id="win2" k-on-open="win2visible = true" k-on-close="win2visible = false" title="Registro de estudiante" width="500" height="500" top="60" left="400">
-    <form class="k-form">
-        <fieldset>
-            <label class="k-form-field">
-                <span>Carné</span>
-                <input class="k-textbox" autocomplete="off"/>
-            </label>
-
-            <label class="k-form-field">
-                <span>Nombre</span>
-                <input class="k-textbox" autocomplete="off"/>
-            </label>
-
-            <label class="k-form-field">
-                <span>Apellidos</span>
-                <input class="k-textbox" autocomplete="off"/>
-            </label>
-
-            <label class="k-form-field">
-                <span>Fecha de Nacimiento</span>
-                <kendo-datepicker [(value)]="value"></kendo-datepicker>
-            </label>
-
-            <label class="k-form-field">
-                <span>Correo eléctronico</span>
-                <input class="k-textbox" autocomplete="off"/>
-            </label>
-
-            <label class="k-form-field">
-                <span>Nombre de usuario</span>
-                <input class="k-textbox" autocomplete="off"/>
-            </label>
-
-            <label class="k-form-field">
-                <span>Contraseña</span>
-                <input class="k-textbox" autocomplete="off"/>
-            </label>
-
-            <label class="k-form-field">
-                <span>Provincia</span>
-                <kendo-dropdownlist [data]="listItems"></kendo-dropdownlist>
-            </label>
-
-            <label class="k-form-field">
-                <span>Cantón</span>
-                <kendo-dropdownlist [data]="listItems"></kendo-dropdownlist>
-            </label>
-
-            <label class="k-form-field">
-                <span>Distrito</span>
-                <kendo-dropdownlist [data]="listItems"></kendo-dropdownlist>
-            </label>
-        </fieldset>
-
-        <div class="text-right">
-            <button type="button" class="k-button" (click)="close()">Cancel</button>
-            <button type="button" class="k-button k-primary" (click)="submit()">Submit</button>
-        </div>
-    </form>
-</kendo-window>
-  </div>
-
-  <!-- Iniciar sesión -->
-<div class="k-overlay" *ngIf="opened"></div>
-<div>
-    <kendo-window title="Inicio de sesión" *ngIf="opened" (close)="close()" width="500" height="500" top="60" left="400">
-    <form class="k-form">
-        <fieldset>
-            <label class="k-form-field">
-                <span>Nombre de usuario</span>
-                <input class="k-textbox" autocomplete="off"/>
-            </label>
-
-            <label class="k-form-field">
-                <span>Contraseña</span>
-                <input class="k-textbox" autocomplete="off"/>
-            </label>
-        </fieldset>
-
-        <div class="text-right">
-            <button type="button" class="k-button" (click)="close()">Cancel</button>
-            <button type="button" class="k-button k-primary" (click)="submit()">Submit</button>
-        </div>
-    </form>
-    </kendo-window>
-  </div>
 
 
 

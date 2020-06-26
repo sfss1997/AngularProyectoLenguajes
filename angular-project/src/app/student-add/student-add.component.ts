@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-add',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentAddComponent implements OnInit {
 
-  constructor() { }
+  public value: Date = new Date(2000, 2, 10);
+  public listItems: Array<string> = ["X-Small", "Small", "Medium", "Large", "X-Large", "2X-Large"];
+  
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  addStudent() {
+    this.router.navigate(['/home']);
   }
 
 }

@@ -14,16 +14,23 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WindowModule } from '@progress/kendo-angular-dialog';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { StudentAddComponent } from './student-add/student-add.component';
 import { StudentListComponent } from './student-list/student-list.component';
 import { ProfessorAddComponent } from './professor-add/professor-add.component';
 import { ProfessorListComponent } from './professor-list/professor-list.component';
 import { AdminViewComponent } from './admin-view/admin-view.component';
-import { GridModule } from '@progress/kendo-angular-grid';
 import { StudentViewComponent } from './student-view/student-view.component';
 import { ProfessorViewComponent } from './professor-view/professor-view.component';
+import { NewsListComponent } from './news-list/news-list.component';
 
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatInputModule } from '@angular/material/input'
+import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { LoginComponent } from './login/login.component'
 
 const appRoutes: Routes = [
   {
@@ -32,9 +39,34 @@ const appRoutes: Routes = [
     data: { title: 'Home' }
   },
   {
-    path: 'admin',
+    path: 'admin-view',
     component: AdminViewComponent,
     data: { title: 'Admin' }
+  },
+  {
+    path: 'student-view',
+    component: StudentViewComponent,
+    data: { title: 'Student' }
+  },
+  {
+    path: 'professor-view',
+    component: ProfessorViewComponent,
+    data: { title: 'Professor' }
+  },
+  {
+    path: 'news',
+    component: NewsListComponent,
+    data: { title: 'News' }
+  },
+  {
+    path: 'student-add',
+    component: StudentAddComponent,
+    data: { title: 'Registrar estudiante' }
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: { title: 'Iniciar sesión' }
   },
   {
     path: '',
@@ -42,7 +74,6 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   }
 ];
-
 
 @NgModule({
   declarations: [
@@ -54,7 +85,9 @@ const appRoutes: Routes = [
     ProfessorListComponent,
     AdminViewComponent,
     StudentViewComponent,
-    ProfessorViewComponent
+    ProfessorViewComponent,
+    NewsListComponent,
+    LoginComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -68,7 +101,12 @@ const appRoutes: Routes = [
     DateInputsModule,
     DropDownsModule,
     HttpClientModule,
-    GridModule
+    GridModule,
+    LayoutModule,
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]

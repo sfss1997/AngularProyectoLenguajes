@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-start',
@@ -8,10 +9,8 @@ import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular
 export class StartComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('sv') private scrollView;
   public paused = false;
-  public value: Date = new Date(2000, 2, 10);
-  public listItems: Array<string> = ["X-Small", "Small", "Medium", "Large", "X-Large", "2X-Large"];
 
-  constructor() { 
+  constructor(private router: Router) { 
   }
 
   public items: any[] = [
@@ -20,9 +19,9 @@ export class StartComponent implements OnInit, OnDestroy, AfterViewInit {
     { url: './assets/img3.jpg' }
   ];
 
+  private interval;
   public width: string = "100%";
   public height: string = "600px";
-  private interval;
 
   ngOnInit(): void {
   }
@@ -39,20 +38,12 @@ export class StartComponent implements OnInit, OnDestroy, AfterViewInit {
     clearInterval(this.interval);
   }
 
-  public opened = false;
-  public dataSaved = false;
+  public registerStudent() {
+    this.router.navigate(['/student-add']);
+  }
 
-    public close() {
-      this.opened = false;
-    }
-
-    public open() {
-      this.opened = true;
-    }
-
-    public submit() {
-      this.dataSaved = true;
-      this.close();
+  public login() {
+    this.router.navigate(['/login']);
   }
 
 }

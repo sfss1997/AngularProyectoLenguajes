@@ -1,0 +1,11 @@
+<h4>Noticias</h4>
+<kendo-card [width]="260" *ngFor="let n of news">
+    <kendo-card-header class="k-hbox">Noticia: {{n.title}}</kendo-card-header>
+    <kendo-card-body>
+        <img src="https://inil.ucr.ac.cr/wp-content/uploads/2016/12/logo-ucr.png" [ngStyle]="{ minWidth: '100' }"
+            draggable="false" />
+            <p>Autor: {{n.authorName}}</p>
+        <a [routerLink]=""> Ver </a>
+        <hr/>
+    </kendo-card-body>
+</kendo-card>
