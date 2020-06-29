@@ -1,6 +1,9 @@
-import { Component, OnInit} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {  Router } from '@angular/router';
 import { RestService } from '../rest.service';
+import { StudentServiceService } from '../student-service.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-admin-view',
@@ -16,12 +19,23 @@ export class AdminViewComponent implements OnInit {
   comments:any = [];
   new:any;
   newsName:any;
+  students:any = [];
+  studentsApproval:any = [];
+  student:any;
+  studentStatus:any = { id: 0, registrationStatus:''};
 
-  constructor(public rest:RestService, private route: ActivatedRoute, private router: Router) { }
+  studentApprovalColumns: string[] = ['student_card', 'student_name', 'last_name', 'mail', 'actions'];
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  dataSourcestudentsApproval = new MatTableDataSource<any>();
+
+  constructor(public rest:RestService, private router: Router,
+    private studentService: StudentServiceService) { }
 
   ngOnInit(): void {
     this.getNews();
     this.getComments();
+    this.getStudents();
+    this.getStudentsApproval();
   }
 
   getNews() {
@@ -50,5 +64,49 @@ export class AdminViewComponent implements OnInit {
     });
   }
 
+  getStudents() {
+    this.students = [];
+    this.studentService.getStudents().subscribe((data: {}) => {
+      this.students = data;
+    });
+  }
+
+  getStudentById(id) {
+    this.studentService.getStudentById(id).subscribe((data: {}) => {
+      this.student = data;
+      console.log(data);
+    });
+  }
+
+  getStudentsApproval() {
+    this.studentsApproval = [];
+    this.studentService.getListApproval().subscribe((data: {}) => {
+      this.studentsApproval = data;
+      this.dataSourcestudentsApproval = new MatTableDataSource<any>(this.studentsApproval);
+      this.dataSourcestudentsApproval.paginator = this.paginator;
+    });
+  }
+
+  approveStudent(id) {
+    this.studentStatus = {
+        "id": id,
+        "registrationStatus": "Aprobado"
+      };
+
+    this.studentService.updateStatus(this.studentStatus).subscribe((result) => {
+      this.getStudentsApproval();
+    });
+  }
+
+  denyStudent(id) {
+    this.studentStatus = {
+        "id": id,
+        "registrationStatus": "Rechazado"
+      };
+
+    this.studentService.updateStatus(this.studentStatus).subscribe((result) => {
+      this.getStudentsApproval();
+    });
+  }
 
 }
