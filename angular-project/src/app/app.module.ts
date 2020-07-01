@@ -36,6 +36,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PopupModule } from '@progress/kendo-angular-popup';
 
 const appRoutes: Routes = [
   {
@@ -49,12 +50,12 @@ const appRoutes: Routes = [
     data: { title: 'Admin' }
   },
   {
-    path: 'student-view',
+    path: 'student-view/:id',
     component: StudentViewComponent,
     data: { title: 'Student' }
   },
   {
-    path: 'professor-view',
+    path: 'professor-view/:id',
     component: ProfessorViewComponent,
     data: { title: 'Professor' }
   },
@@ -116,7 +117,8 @@ const appRoutes: Routes = [
     MatIconModule,
     MatPaginatorModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    PopupModule
   ],
   providers: [],
   bootstrap: [AppComponent]

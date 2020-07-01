@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,  } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams  } from '@angular/common/http';
 import { Observable} from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
-  })
+  }),
 };
 
 @Injectable({
@@ -14,6 +14,8 @@ const httpOptions = {
 export class CourseService {
 
   private _url = 'http://localhost:8080/Course/';
+
+  params = new HttpParams();
 
   constructor(private http: HttpClient) { }
 
@@ -74,7 +76,11 @@ export class CourseService {
   }
 
   getPublicConsultation(publicConsultation): Observable<any> {
-    return this.http.get<any>(this._url + 'GetPublicConsultation'+ JSON.stringify(publicConsultation));
+
+    this.params = this.params.append('courseId', publicConsultation.courseId);
+    this.params = this.params.append('professorId', publicConsultation.professorId);
+
+    return this.http.get<any>(this._url + 'GetPublicConsultation', { params: this.params });
   }
 
   getPrivateMessage(privateMessage): Observable<any> {
