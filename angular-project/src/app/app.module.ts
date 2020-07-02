@@ -27,6 +27,8 @@ import { StudentViewComponent } from './student-view/student-view.component';
 import { ProfessorViewComponent } from './professor-view/professor-view.component';
 import { NewsListComponent } from './news-list/news-list.component';
 
+
+
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'

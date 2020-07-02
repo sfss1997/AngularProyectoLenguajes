@@ -49,6 +49,7 @@ export class ProfessorService {
     return this.http.delete(this._url + 'Delete?id='+ id, httpOptions);
   }
 
+  
   addSocialNetwork (socialNetwork): Observable<any> {
     return this.http.post(this._url + 'addSocialNetwork', JSON.stringify(socialNetwork), httpOptions);
   }
