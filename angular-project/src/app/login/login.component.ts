@@ -40,9 +40,9 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/professor-view', p.id]);
           }
         });
-      } else {
+      } else if (u.username != this.user.username || u.password != this.user.password || u.status == 'Inactivo'){
         this.openSnackBar('Usuario incorrecto', '');
-      }
+      } 
     });
 
     if(this.user.username == 'admin' && this.user.password == 'admin') {

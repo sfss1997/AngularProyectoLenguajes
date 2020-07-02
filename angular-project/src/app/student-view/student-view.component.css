@@ -6,21 +6,30 @@ kendo-drawer-container {
     width: 100%;
     height: 100%;
 }
+
 .k-icon {
     font-size: 20px;
 }
+
+.k-drawer-item .k-state-selected{
+    background-color: #a9cce3;
+}
+
+.drawer {
+    background-color: #a9cce3;
+}
+
 .custom-toolbar {
     width: 100%;
-    background-color: rgb(109, 166, 241);
+    background-color:#a9cce3;
     line-height: 10px;
     border-bottom: inset;
     border-bottom-width: 1px;
     padding: 3px 8px;
-    color: #656565;
+    color: #000000;
 }
 .mail-box{
     margin-left: 20px;
-    font-weight: bold;
     font-size: 17px;
 }
 
@@ -32,5 +41,5 @@ kendo-drawer-container {
   }
 
 .repliesPublicConsultation {
-    margin-left: 200px;
+    margin-left: 30px;
 }

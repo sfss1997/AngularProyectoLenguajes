@@ -1,9 +1,10 @@
 <div class="custom-toolbar">
     <button kendoButton icon="menu" look="flat" (click)="drawer.toggle()"></button>
-    <span class="mail-box">Bienvenido</span>
+    <span class="mail-box">Bienvenido(a) {{ student.studentName}} {{ student.lastName}}</span>
 </div>
 <kendo-drawer-container>
-    <kendo-drawer #drawer [items]="items" [mode]="'push'" [mini]="true" [expanded]="true" (select)="onSelect($event)">
+    <kendo-drawer #drawer class="drawer" [items]="items" [mode]="'push'" [mini]="true" [expanded]="true"
+        (select)="onSelect($event)">
     </kendo-drawer>
 
     <kendo-drawer-content>
@@ -11,35 +12,81 @@
         <div *ngIf="selected === 'Perfil'">
         </div>
 
-        <div  *ngIf="selected === 'Noticias'">
+        <div *ngIf="selected === 'Noticias'">
         </div>
 
         <div *ngIf="selected === 'Cursos'">
         </div>
 
         <div *ngIf="selected === 'Consulta pública'">
-            <ul>
-                <li *ngFor="let p of publicConsultation">
-                    <h5> Consulta: {{ p.motive }} </h5>
-                  {{ p.dateTime }}  {{ p.student_id }} 
-                  <button kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)"></button>
-                </li>
-              </ul>
-
-              <hr style="width:75%;" style="border-color:rgb(109, 166, 241);"/>
-
-              <div class="repliesPublicConsultation" *ngIf="show === true">
-                  <h4>Respuestas</h4>
-                <ul>
-                    <li *ngFor="let r of repliesPublicConsultation">
-                        <h5> {{ r.motive }} {{ r.dateTime }}</h5>
-                    </li>
-                  </ul>
-                  <h3>Añadir respuesta</h3>
-                  <input name="repliesPublicConsultation" class="form-control" type="text" autocomplete="off">
-                  <button kendoButton [icon]="'comment'" (click)="addRepliesPublicConsultation()"></button>
+            <div class="row" >
+                <div class="col-md-6">
+                    <ul>
+                        <li *ngFor="let p of publicConsultation">
+                            <h5> Consulta: {{ p.motive }}
+                                <button kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)"
+                                    (click)="getCourseById(p.course_id)"></button>
+                            </h5>
+                            Fecha: {{ p.dateTime }}
+                            Publicado por: {{ studentPublicConsultation.studentName }} {{studentPublicConsultation.lastName}}
+                        </li>
+                    </ul>
+        
+                    <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
+        
+                    <div class="repliesPublicConsultation" *ngIf="show === true" class="pre-scrollable">
+                        <h4>Respuestas</h4>
+                        <h5>Curso: {{ course.name }}</h5>
+                        <ul>
+                            <li *ngFor="let r of repliesPublicConsultation">
+                                <h5> {{ r.motive }} </h5>
+                                Fecha: {{ r.dateTime }}
+                            </li>
+                        </ul>
+                        <form [formGroup]="repliesPublicConsultationForm" (ngSubmit)="addRepliesPublicConsultation()"
+                            #formDir="ngForm">
+                            <div class="col-md-4">
+                                <h4>Añadir respuesta</h4>
+                                <input name="repliesPublicConsultation" formControlName="repliesForm" class="form-control"
+                                    type="text" autocomplete="off" size="20">
+                                <br>
+                                <button kendoButton [icon]="'comment'" type="submit"></button>
+                                <span class="text-danger"
+                                    *ngIf="repliesPublicConsultationForm.hasError('required', 'repliesForm') && formDir.submitted">
+                                    Debe escribir una respuesta.
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        
+                <div class="col-md-4">
+                    <h4>Enviar nueva consulta</h4>
+                    <form [formGroup]="publicConsultationForm" (ngSubmit)="addPublicConsultation()"
+                            #formDir="ngForm">
+                    <label class="control-label">Consulta:</label>
+                    <input name="publicConsultation" formControlName="addPublicConsultationForm" class="form-control" type="text"
+                        autocomplete="off" size="10">
+                        <br>
+                    <label class="control-label">Curso: </label>
+                    <kendo-dropdownlist
+                    [data]="courses" 
+                    [valueField]="'course_id'"
+                    [textField]="'courseName'"
+                    [defaultItem]="defaultItemCourse"
+                    (valueChange)="courseChange($event)"
+                    [value]="selectedCourse">
+                    </kendo-dropdownlist>
+                    <br>
+                    <br>
+                    <button kendoButton type="submit">Enviar</button>
+                    <span class="text-danger"
+                        *ngIf="publicConsultationForm.hasError('required', 'addPublicConsultationForm') && formDir.submitted">
+                        Debe escribir una consulta.
+                    </span>
+                </form>
+                </div> 
             </div>
-              
         </div>
 
         <div *ngIf="selected === 'Consulta privada'">

@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { StartComponent } from './start/start.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ScrollViewModule } from '@progress/kendo-angular-scrollview';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -118,7 +118,8 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     FormsModule,
     MatSnackBarModule,
-    PopupModule
+    PopupModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
