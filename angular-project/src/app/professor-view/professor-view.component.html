@@ -11,7 +11,7 @@
     (select)="onSelect($event)">
     </kendo-drawer>
 
-    <kendo-drawer-content>
+    <kendo-drawer-content class="pre-scrollable">
 
         <div *ngIf="selected === 'Perfil'">
         </div>
@@ -29,7 +29,6 @@
                         <button kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)" (click)="getCourseById(p.course_id)"></button>
                     </h5>
                     Fecha: {{ p.dateTime }}
-                    Publicado por: {{ studentPublicConsultation.studentName }} {{studentPublicConsultation.lastName}}
                 </li>
             </ul>
 
@@ -44,7 +43,7 @@
                             Fecha: {{ r.dateTime }}
                     </li>
                 </ul>
-                <form [formGroup]="repliesPublicConsultationForm" (ngSubmit)="addRepliesPublicConsultation()" #formDir="ngForm">
+                <form [formGroup]="repliesPublicConsultationForm" (ngSubmit)="addRepliesPublicConsultation(currentPublicConsultation)" #formDir="ngForm">
                     <div class="col-md-4">
                         <h4>Añadir respuesta</h4>
                         <input name="repliesPublicConsultation" formControlName="repliesForm" class="form-control" type="text"
