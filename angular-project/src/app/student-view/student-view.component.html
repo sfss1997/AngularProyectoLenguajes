@@ -2,12 +2,12 @@
     <button kendoButton icon="menu" look="flat" (click)="drawer.toggle()"></button>
     <span class="mail-box">Bienvenido(a) {{ student.studentName}} {{ student.lastName}}</span>
 </div>
-<kendo-drawer-container>
+<kendo-drawer-container >
     <kendo-drawer #drawer class="drawer" [items]="items" [mode]="'push'" [mini]="true" [expanded]="true"
         (select)="onSelect($event)">
     </kendo-drawer>
 
-    <kendo-drawer-content>
+    <kendo-drawer-content class="pre-scrollable">
 
         <div *ngIf="selected === 'Perfil'">
         </div>
@@ -19,22 +19,21 @@
         </div>
 
         <div *ngIf="selected === 'Consulta pública'">
-            <div class="row" >
+            <div class="row">
                 <div class="col-md-6">
                     <ul>
                         <li *ngFor="let p of publicConsultation">
                             <h5> Consulta: {{ p.motive }}
                                 <button kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)"
                                     (click)="getCourseById(p.course_id)"></button>
-                            </h5>
+                            </h5 >
                             Fecha: {{ p.dateTime }}
-                            Publicado por: {{ studentPublicConsultation.studentName }} {{studentPublicConsultation.lastName}}
                         </li>
                     </ul>
         
                     <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
         
-                    <div class="repliesPublicConsultation" *ngIf="show === true" class="pre-scrollable">
+                    <div class="repliesPublicConsultation" *ngIf="show === true">
                         <h4>Respuestas</h4>
                         <h5>Curso: {{ course.name }}</h5>
                         <ul>
@@ -43,7 +42,7 @@
                                 Fecha: {{ r.dateTime }}
                             </li>
                         </ul>
-                        <form [formGroup]="repliesPublicConsultationForm" (ngSubmit)="addRepliesPublicConsultation()"
+                        <form [formGroup]="repliesPublicConsultationForm" (ngSubmit)="addRepliesPublicConsultation(currentPublicConsultation)"
                             #formDir="ngForm">
                             <div class="col-md-4">
                                 <h4>Añadir respuesta</h4>

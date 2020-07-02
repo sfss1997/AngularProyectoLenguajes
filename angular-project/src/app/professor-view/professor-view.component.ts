@@ -23,6 +23,7 @@ export class ProfessorViewComponent implements OnInit {
   course:any;
   professor:any;
   studentPublicConsultation:any;
+  currentPublicConsultation:any = {};
 
   replies: any = { publicConsultationId: 0, studentId: 0, professorId: 0, motive: '', dateTime: ''}
   publicConsult:any = { courseId: 0, professorId: 0};
@@ -68,11 +69,6 @@ export class ProfessorViewComponent implements OnInit {
         this.courseService.getPublicConsultation(this.publicConsult).subscribe((result: {}) => {
           this.publicConsultation = result;
 
-          this.publicConsultation.forEach(p => {
-            this.studentService.getStudentById(p.student_id).subscribe((student: {}) => {
-              this.studentPublicConsultation = student;
-            });
-          });
         });
       });
 
@@ -85,9 +81,10 @@ export class ProfessorViewComponent implements OnInit {
     this.courseService.getRepliesPublicConsultation(id).subscribe((data: {}) => {
       this.repliesPublicConsultation = data;
     });
+    this.currentPublicConsultation = id;
   }
 
-  addRepliesPublicConsultation() {
+  addRepliesPublicConsultation(id) {
 
     if (!this.repliesPublicConsultationForm.valid) {
       return;
@@ -97,22 +94,19 @@ export class ProfessorViewComponent implements OnInit {
     var dd = this.date.getDate();
     var mm = this.date.getMonth() + 1;
     var yyyy = this.date.getFullYear();
+    var replies = {}
 
-    var publicConsultationId = 0;
-
-    this.repliesPublicConsultation.forEach(r => {
-      publicConsultationId = r.publicConsultation_id;
-    });
-
-    this.replies = {
-      "publicConsultationId": publicConsultationId,
+    replies = {
+      "publicConsultationId": id,
       "professorId": this.route.snapshot.params['id'],
       "motive": this.repliesPublicConsultationForm.value.repliesForm,
       "dateTime": yyyy+'-'+mm+'-'+dd
     };
 
-    this.courseService.addRepliesPublicConsultation(this.replies).subscribe((result) => {
-      this.showRepliesPublicConsultation(this.replies.publicConsultationId);
+    console.log(replies);
+
+    this.courseService.addRepliesPublicConsultation(replies).subscribe((result) => {
+      this.showRepliesPublicConsultation(id);
     });
   }
 

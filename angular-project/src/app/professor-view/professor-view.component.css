@@ -43,3 +43,7 @@ kendo-drawer-container {
 .repliesPublicConsultation {
     margin-left: 200px;
 }
+
+.pre-scrollable {
+    overflow-x: hidden;
+}
