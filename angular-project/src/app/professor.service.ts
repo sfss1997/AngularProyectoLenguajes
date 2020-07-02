@@ -37,16 +37,16 @@ export class ProfessorService {
     return this.http.get<any>(this._url + 'GetSocialNetworksById?id=' + id);
   }
 
-  addStudent (professor): Observable<any> {
+  addProfessor (professor): Observable<any> {
     return this.http.post(this._url + 'Add', JSON.stringify(professor), httpOptions);
   }
 
-  updateStudent (professor): Observable<any> {
+  updateProfessor (professor): Observable<any> {
     return this.http.put(this._url + 'Update', JSON.stringify(professor), httpOptions);
   }
 
-  deleteStudent (id): Observable<any> {
-    return this.http.delete(this._url + 'Update?id='+ id, httpOptions);
+  deleteProfessor (id): Observable<any> {
+    return this.http.delete(this._url + 'Delete?id='+ id, httpOptions);
   }
 
   addSocialNetwork (socialNetwork): Observable<any> {
