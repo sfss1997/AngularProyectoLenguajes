@@ -118,7 +118,8 @@ const appRoutes: Routes = [
     NewsListComponent,
     LoginComponent,
     CourseAddComponent,
-    CourseUpdateComponent
+    CourseUpdateComponent,
+    ProfessorUpdateComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
