@@ -38,6 +38,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PopupModule } from '@progress/kendo-angular-popup';
+import { CourseUpdateComponent } from './course-update/course-update.component';
 
 const appRoutes: Routes = [
   {
@@ -100,7 +101,8 @@ const appRoutes: Routes = [
     ProfessorViewComponent,
     NewsListComponent,
     LoginComponent,
-    CourseAddComponent
+    CourseAddComponent,
+    CourseUpdateComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
