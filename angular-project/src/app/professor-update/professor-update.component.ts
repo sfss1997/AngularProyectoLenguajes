@@ -1,17 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { LocationService } from '../location.service';
 import { ProfessorService } from '../professor.service';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-professor-add',
-  templateUrl: './professor-add.component.html',
-  styleUrls: ['./professor-add.component.css']
+  selector: 'app-professor-update',
+  templateUrl: './professor-update.component.html',
+  styleUrls: ['./professor-update.component.css']
 })
 
-export class ProfessorAddComponent implements OnInit {
+export class ProfessorUpdateComponent implements OnInit {
 
-  @Input() profesorData = {name:'', lastName:'', mail:'', academicDegree:0, username:'', password:'', isAdministrator:0,status:'',provinceId:0,cantonId:0,districtId:0};
+
+  @Input() profesorData:any = {name:'', lastName:'', mail:'', academicDegree:0, username:'', password:'', isAdministrator:0,status:'',provinceId:0,cantonId:0,districtId:0};
 
   provinces: any = [];
   cantons: any = [];
@@ -33,7 +34,6 @@ export class ProfessorAddComponent implements OnInit {
   defaultItemDistrict: { name: string, id: number } = { name: "Select district", id: null };
 
 
-
   public is_admin: Array<any> = [
     { name: 'Si', id: 1 },
     { name: 'No', id: 0 }
@@ -44,12 +44,16 @@ export class ProfessorAddComponent implements OnInit {
     { name: 'Inactivo', id: 0 }
   ];
   
-  constructor(private locationService: LocationService, private professorService: ProfessorService) { }
+  constructor(private route: ActivatedRoute, private locationService: LocationService, private professorService: ProfessorService) { }
+
 
   ngOnInit(): void {
+    this.professorService.getProfessorById(this.route.snapshot.params['id']).subscribe((data: {}) => {
+      this.profesorData=data;
+    });
+
     this.getProvinces();
     this.getAcademicDregree();
-    
   }
 
   degreeChange(value) {
@@ -71,9 +75,10 @@ export class ProfessorAddComponent implements OnInit {
 
   }
 
-  addProfessor(){
+  updateProfessor(){
    
     var professor = {
+      "id": this.route.snapshot.params['id'],
       "username": this.profesorData.username,
       "password": this.profesorData.password,
       "isAdministrator": this.selectedAdministrator.id,
@@ -86,8 +91,9 @@ export class ProfessorAddComponent implements OnInit {
       "districtId": this.selectedDistrict.id,
       "academicDegree": this.selectedAcademicDegree.id
   };
-    this.professorService.addProfessor(professor).subscribe((result) => {});
+    this.professorService.updateProfessor(professor).subscribe((result) => {});
   }
+
 
  
 
@@ -145,7 +151,5 @@ export class ProfessorAddComponent implements OnInit {
   districtChange(value) {
     this.selectedDistrict = value;
   }
-  
-
 
 }

@@ -39,6 +39,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { CourseUpdateComponent } from './course-update/course-update.component';
+import { ProfessorUpdateComponent } from './professor-update/professor-update.component';
 
 const appRoutes: Routes = [
   {
@@ -60,6 +61,16 @@ const appRoutes: Routes = [
     path: 'professor-view/:id',
     component: ProfessorViewComponent,
     data: { title: 'Professor' }
+  },
+  {
+    path: 'professor-add',
+    component: ProfessorAddComponent,
+    data: { title: 'Registrar profesor' }
+  },
+  {
+    path: 'professor-update/:id',
+    component: ProfessorUpdateComponent,
+    data: { title: 'Actualizar profesor' }
   },
   {
     path: 'news',
