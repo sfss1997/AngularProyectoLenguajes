@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CourseService } from '../course.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-course-update',
@@ -11,10 +12,10 @@ export class CourseUpdateComponent implements OnInit {
 
   courseForm: FormGroup;
   course= {};
-  @Input() courseData = { id: 0, initials:'', name: '', is_active: 0, credits:0, cycle:''};
+  @Input() courseData: any = { id: 0, initials:'', name: '', is_active: 0, credits:0, cycle:''};
   public selectedState: { text: string, value: number};
   public selectedCycles: { text: string, value: number};
-  constructor(private fb: FormBuilder,private courseService: CourseService) {  
+  constructor(private fb: FormBuilder,private courseService: CourseService, private route: ActivatedRoute) {  
     
 
     this.courseForm = this.fb.group({
@@ -29,6 +30,10 @@ export class CourseUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.courseService.getCourseById(this.route.snapshot.params['id']).subscribe((data: {}) => { 
+      this.courseData = data;  
+      console.log(this.courseData);
+    });
   }
 
   public cycles: Array<any> = [
@@ -39,7 +44,7 @@ export class CourseUpdateComponent implements OnInit {
 
 public is_active: Array<any> = [
   { text: 'Activo', value: 1 },
-  { text: 'Inactivo', value: 2 }
+  { text: 'Inactivo', value: 0 }
 ];
 
 updateCourse() {
@@ -47,6 +52,7 @@ updateCourse() {
     return;
   }
   this.course = {
+    "id": this.courseForm.value.id,
     "initials": this.courseForm.value.initials,
     "name": this.courseForm.value.name,
     "is_active": this.selectedState.value,

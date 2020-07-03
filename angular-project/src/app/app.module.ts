@@ -82,6 +82,11 @@ const appRoutes: Routes = [
     data: { title: 'Registrar curso' }
   },
   {
+    path: 'course-update/:id',
+    component: CourseUpdateComponent,
+    data: { title: 'Actualizar curso' }
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'

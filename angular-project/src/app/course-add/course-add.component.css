@@ -1,0 +1,46 @@
+#btnAddCourse {
+    color : rgb(0, 0, 0);
+    background-color: rgba(167, 229, 245, 0.96);
+    /*border-radius: 10px 0 0 10px; */
+    font-size: 16px;
+  }
+  
+  #btnAddCourse:not([disabled]):hover {
+    background-color: rgba(74, 149, 247, 0.96);
+   /* color: rgb(0, 0, 0); */
+  }
+  
+  #btnAddCourse[disabled] {
+    color : rgb(187, 187, 187);
+    background-color: rgba(230, 230, 229, 0.96);
+  }
+
+  #btnHome {
+    color : rgb(0, 0, 0);
+    background-color: rgba(167, 229, 245, 0.96);
+    /*border-radius: 10px 0 0 10px; */
+    font-size: 16px;
+    margin-left: 5px;
+  }
+  
+  #btnHome:not([disabled]):hover {
+    background-color: rgba(74, 149, 247, 0.96);
+   /* color: rgb(0, 0, 0); */
+  }
+  
+  #btnHome[disabled] {
+    color : rgb(187, 187, 187);
+    background-color: rgba(230, 230, 229, 0.96);
+  } 
+
+  #formCourse{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+  }
+
+  #title{
+    color: rgba(74, 149, 247, 0.96);
+  }
