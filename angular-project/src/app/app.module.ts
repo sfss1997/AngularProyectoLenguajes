@@ -26,8 +26,7 @@ import { AdminViewComponent } from './admin-view/admin-view.component';
 import { StudentViewComponent } from './student-view/student-view.component';
 import { ProfessorViewComponent } from './professor-view/professor-view.component';
 import { NewsListComponent } from './news-list/news-list.component';
-
-
+import { CourseAddComponent } from './course-add/course-add.component';
 
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatInputModule } from '@angular/material/input'
@@ -77,6 +76,11 @@ const appRoutes: Routes = [
     data: { title: 'Iniciar sesión' }
   },
   {
+    path: 'course-add',
+    component: CourseAddComponent,
+    data: { title: 'Registrar curso' }
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -95,7 +99,8 @@ const appRoutes: Routes = [
     StudentViewComponent,
     ProfessorViewComponent,
     NewsListComponent,
-    LoginComponent
+    LoginComponent,
+    CourseAddComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

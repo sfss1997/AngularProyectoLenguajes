@@ -5,6 +5,7 @@ import { StudentServiceService } from '../student-service.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProfessorService } from '../professor.service';
+import { CourseService } from '../course.service';
 
 @Component({
   selector: 'app-admin-view',
@@ -21,6 +22,7 @@ export class AdminViewComponent implements OnInit {
   new:any;
   newsName:any;
   students:any = [];
+  courses:any = [];
   studentsApproval:any = [];
   professors:any = [];
   student:any;
@@ -28,13 +30,16 @@ export class AdminViewComponent implements OnInit {
 
   studentApprovalColumns: string[] = ['student_card', 'student_name', 'last_name', 'mail', 'actions'];
   professorColumns: string[] = ['name', 'last_name', 'mail', 'actions'];
+  courseColumns: string[] = ['initials', 'name', 'is_active', 'credits', 'cycle', 'actions'];
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   dataSourcestudentsApproval = new MatTableDataSource<any>();
+  dataSourceCourses = new MatTableDataSource<any>();
   dataSourceProfessors = new MatTableDataSource<any>();
 
   constructor(public rest:RestService, private router: Router,
     private studentService: StudentServiceService,
-    private professorService: ProfessorService) { }
+    private professorService: ProfessorService,
+    private courseService: CourseService) { }
 
   ngOnInit(): void {
     this.getNews();
@@ -42,6 +47,7 @@ export class AdminViewComponent implements OnInit {
     this.getStudents();
     this.getStudentsApproval();
     this.getProfessors();
+    this.getCourses();
   }
 
   getNews() {
@@ -132,6 +138,24 @@ export class AdminViewComponent implements OnInit {
           this.getProfessors();
         }
       );
+  }
+
+  deleteCourse(id) {
+    this.courseService.delete(id).subscribe(res => {
+          this.getCourses();
+        }
+      );
+  }
+
+  getCourses(){
+    this.courses = [];
+    this.courseService.getCourses().subscribe((data: {}) => {
+      this.courses = data;
+      this.dataSourceCourses = new MatTableDataSource<any>(this.courses);
+      this.dataSourceCourses.paginator = this.paginator;
+      console.log(data);
+    });
+
   }
 
   
