@@ -5,6 +5,8 @@ import { ProfessorService } from '../professor.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StudentServiceService } from '../student-service.service';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-professor-view',
@@ -35,12 +37,13 @@ export class ProfessorViewComponent implements OnInit {
     { text: 'Consulta pública', icon: 'k-i-unlock' }, 
     { text: 'Consulta privada', icon: 'k-i-lock' },
     { text: 'Citas de atención', icon: 'k-i-calendar' }, { separator: true },
-    { text: 'Cerrar sesión', icon: 'k-i-logout' }
+    { text: 'Cerrar sesión', icon: 'k-i-logout' },
+    { text: 'Borrar cuenta', icon: 'k-i-delete' }
   ];
 
   constructor(private courseService: CourseService, private route: ActivatedRoute,
     private fb: FormBuilder, private professorService: ProfessorService,
-    private studentService: StudentServiceService) { 
+    private studentService: StudentServiceService, private router: Router, public snackBar: MatSnackBar) { 
       this.repliesPublicConsultationForm = this.fb.group({
         repliesForm: ['', [Validators.required]]
       })
@@ -53,6 +56,23 @@ export class ProfessorViewComponent implements OnInit {
 
   public onSelect(ev: DrawerSelectEvent): void {
     this.selected = ev.item.text;
+    if (this.selected == 'Cerrar sesión') {
+      this.openSnackBar('Se ha cerrado la sesión.', '');
+      this.router.navigate(['/home']);
+    }
+
+    if (this.selected == 'Borrar cuenta') {
+      this.professorService.deleteProfessor(this.route.snapshot.params['id']).subscribe(res => {
+      });
+      this.openSnackBar('Se ha borrado la cuenta.', '');
+      this.router.navigate(['/home']);
+    }
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   getPublicConsultation() {
