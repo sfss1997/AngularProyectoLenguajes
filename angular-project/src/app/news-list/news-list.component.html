@@ -1,4 +1,8 @@
-<h4>Noticias</h4>
+<!-- <h4>Noticias</h4> -->
+<div class="custom-toolbar">
+    <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
+    <span class="mail-box">Noticias</span>
+  </div>
 <kendo-card [width]="260" *ngFor="let n of news">
     <kendo-card-header class="k-hbox">Noticia: {{n.title}}</kendo-card-header>
     <kendo-card-body>

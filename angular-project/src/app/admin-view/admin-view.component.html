@@ -1,6 +1,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<h4>Estudiantes por aprobar</h4>
+<div class="custom-toolbar">
+    <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
+    <span class="mail-box">Estudiantes por aprobar</span>
+  </div>
+<!-- <h4>Estudiantes por aprobar</h4> -->
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSourcestudentsApproval">
         <ng-container matColumnDef="student_card">

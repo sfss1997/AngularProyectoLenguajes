@@ -39,6 +39,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { CourseUpdateComponent } from './course-update/course-update.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 const appRoutes: Routes = [
   {
@@ -133,7 +134,8 @@ const appRoutes: Routes = [
     FormsModule,
     MatSnackBarModule,
     PopupModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
