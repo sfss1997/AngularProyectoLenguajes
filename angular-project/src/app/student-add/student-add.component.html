@@ -1,62 +1,52 @@
+<div class="custom-toolbar">
+  <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
+  <span class="mail-box">Nuevo estudiante</span>
+</div>
+
 <div class="container">
 <div class="col-md-6">
-  <h2> Registrar estudiante </h2>
+  <!-- <h2> Registrar estudiante </h2> -->
 </div>
 <form>
   <div class=class id="formStudent">
     <div class="form-group">
       <label class=" control-label col-md-12">Carné</label>
-      <!-- <div class="col-md-4"> -->
-        <input class="form-control" type="text" autocomplete="off">
+        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.studentCard" name="studentCard">
       </div>
-    <!-- </div> -->
 
     <div class="form-group">
       <label class=" control-label col-md-12">Nombre</label>
-      <!-- <div class="col-md-4"> -->
-        <input class="form-control" type="text" autocomplete="off">
-      <!-- </div> -->
+        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.studentName" name="studentName">
     </div>
 
     <div class="form-group">
       <label class=" control-label col-md-12">Apellidos</label>
-      <!-- <div class="col-md-4"> -->
-        <input class="form-control" type="text" autocomplete="off">
-      <!-- </div> -->
+        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.lastName" name="lastName">
     </div>
 
     <div class="form-group">
       <label class=" control-label col-md-12">Fecha de Nacimiento</label>
-      <!-- <div class="col-md-4"> -->
-        <kendo-datepicker [(value)]="value"></kendo-datepicker>
-      <!-- </div> -->
+        <kendo-datepicker [(value)]="value" [format]="'yyyy-MM-dd'"></kendo-datepicker>
     </div>
 
     <div class="form-group">
       <label class=" control-label col-md-12">Correo eléctronico</label>
-      <!-- <div class="col-md-4"> -->
-        <input class="form-control" type="text" autocomplete="off">
-      <!-- </div> -->
+        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.mail" name="mail">
     </div>
 
 
     <div class="form-group">
       <label class=" control-label col-md-12">Nombre de usuario</label>
-      <!-- <div class="col-md-4"> -->
-        <input class="form-control" type="text" autocomplete="off">
-      <!-- </div> -->
+        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.username" name="username">
     </div>
 
     <div class="form-group">
       <label class=" control-label col-md-12">Contraseña</label>
-      <!-- <div class="col-md-4"> -->
-        <input class="form-control" type="password" autocomplete="off">
-      <!-- </div> -->
+        <input class="form-control" type="password" autocomplete="off" [(ngModel)]="studentData.password" name="password">
     </div>
 
     <div class="form-group">
       <label class=" control-label col-md-12">Provincia</label>
-      <!-- <div class="col-md-4"> -->
         <kendo-dropdownlist 
         [data]="provinces" 
         [textField]="'name'" 
@@ -65,12 +55,10 @@
         [defaultItem]="defaultItemProvinces"
         [value]="selectedProvince"
         ></kendo-dropdownlist>
-      <!-- </div> -->
     </div>
 
     <div class="form-group">
       <label class=" control-label col-md-12">Cantón</label>
-      <!-- <div class="col-md-4"> -->
         <kendo-dropdownlist 
         [data]="cantons" 
         [disabled]="isDisabledCantons"
@@ -81,12 +69,10 @@
         [defaultItem]="defaultItemCantons"
         [value]="selectedCanton"
         ></kendo-dropdownlist>
-      <!-- </div> -->
     </div>
 
     <div class="form-group">
       <label class=" control-label col-md-12">Distrito</label>
-      <!-- <div class="col-md-4"> -->
         <kendo-dropdownlist 
         [data]="districts" 
         [disabled]="isDisabledDistricts"
@@ -96,14 +82,13 @@
         [defaultItem]="defaultItemDistrict"
         [value]="selectedDistrict"
         ></kendo-dropdownlist>
-      <!-- </div> -->
     </div>
   </div>
   <div class="form-group">
     <div class="col-md-12">
       <br>
-      <button mat-button id="btnAddStudent" (click)="addStudent()">Save</button>
-      <button mat-raised-button id="btnHome" routerLink="/home">Cancel</button>
+      <button mat-button id="btnAddStudent" (click)="addStudent()">Registrarse</button>
+      <button mat-raised-button id="btnHome" routerLink="/home">Cancelar</button>
     </div>
   </div>
 </form>

@@ -1,67 +1,61 @@
+<div class="custom-toolbar">
+  <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
+  <span class="mail-box">Registrar curso</span>
+</div>
 <div class="container">
     <div class="col-md-6">
       <h2 id="title"> Registrar curso </h2>
     </div>
     <form [formGroup]="courseForm" (ngSubmit)="addCourse()" #formDir="ngForm" id="formCourse">
-        <div class="form-group">
-          <label class=" control-label col-md-12">Iniciales</label>
-          <!-- <div class="col-md-4"> -->
-            <input class="form-control" type="text" autocomplete="off" formControlName="initials">
-            <span class="text-danger" *ngIf="courseForm.hasError('required', 'initials') && formDir.submitted">
-              Ingrese las iniciales del curso.
-            </span>
-      
-          </div>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Iniciales</label>
+        <!-- <div class="col-md-4"> -->
+        <input class="form-control" type="text" autocomplete="off" formControlName="initials">
+        <span class="text-danger" *ngIf="courseForm.hasError('required', 'initials') && formDir.submitted">
+          Ingrese las iniciales del curso.
+        </span>
+
+      </div>
+      <!-- </div> -->
+
+      <div class="form-group">
+        <label class=" control-label col-md-12">Nombre</label>
+        <!-- <div class="col-md-4"> -->
+        <input class="form-control" type="text" autocomplete="off" formControlName="name">
+        <span class="text-danger" *ngIf="courseForm.hasError('required', 'name') && formDir.submitted">
+          Ingrese el nombre del curso.
+        </span>
         <!-- </div> -->
-    
-        <div class="form-group">
-          <label class=" control-label col-md-12">Nombre</label>
-          <!-- <div class="col-md-4"> -->
-            <input class="form-control" type="text" autocomplete="off" formControlName="name">
-            <span class="text-danger" *ngIf="courseForm.hasError('required', 'name') && formDir.submitted">
-              Ingrese el nombre del curso.
-            </span>
-          <!-- </div> -->
+      </div>
+
+      <div class="form-group">
+        <label class=" control-label col-md-12">Estado</label>
+        <div class="col-md-4">
+          <kendo-dropdownlist [data]="is_active" [textField]="'text'" [valueField]="'value'" [value]="selectedState"
+            (valueChange)="is_activeChange($event)"></kendo-dropdownlist>
         </div>
-    
-        <div class="form-group">
-            <label class=" control-label col-md-12">Estado</label>
-             <div class="col-md-4"> 
-              <kendo-dropdownlist 
-              [data]="is_active" 
-              [textField]="'text'" 
-              [valueField]="'value'"
-              [value]="selectedState"
-              (valueChange)="is_activeChange($event)"
-              ></kendo-dropdownlist>
-            </div> 
-          </div>
-    
-        <div class="form-group">
-          <label class=" control-label col-md-12">Créditos</label>
-          <!-- <div class="col-md-4"> -->
-            <input class="form-control" type="text" autocomplete="off" formControlName="credits">
-            <span class="text-danger" *ngIf="courseForm.hasError('required', 'credits') && formDir.submitted">
-              Ingrese el número de créditos del curso.
-            </span>         
-           <span class="text-danger" *ngIf="courseForm.hasError('pattern', 'credits') && formDir.submitted">
-              Ingrese al menos un dígito.
-          </span>
-          <!-- </div> -->
+      </div>
+
+      <div class="form-group">
+        <label class=" control-label col-md-12">Créditos</label>
+        <!-- <div class="col-md-4"> -->
+        <input class="form-control" type="text" autocomplete="off" formControlName="credits">
+        <span class="text-danger" *ngIf="courseForm.hasError('required', 'credits') && formDir.submitted">
+          Ingrese el número de créditos del curso.
+        </span>
+        <span class="text-danger" *ngIf="courseForm.hasError('pattern', 'credits') && formDir.submitted">
+          Ingrese al menos un dígito.
+        </span>
+        <!-- </div> -->
+      </div>
+
+      <div class="form-group">
+        <label class=" control-label col-md-12">Ciclo</label>
+        <div class="col-md-4">
+          <kendo-dropdownlist [value]="selectedCycles" [data]="cycles" [valueField]="'value'" [textField]="'text'"
+            (valueChange)="cycleChange($event)"></kendo-dropdownlist>
         </div>
-    
-        <div class="form-group">
-            <label class=" control-label col-md-12">Ciclo</label>
-             <div class="col-md-4"> 
-              <kendo-dropdownlist 
-              [value]="selectedCycles"
-              [data]="cycles" 
-              [valueField]="'value'"
-              [textField]="'text'"
-              (valueChange)="cycleChange($event)"
-              ></kendo-dropdownlist>
-             </div> 
-        </div>
+      </div>
       <div class="form-group">
         <div class="col-md-12">
           <br>
@@ -70,7 +64,7 @@
         </div>
       </div>
     </form>
-    </div>
+</div>
 
-    <!-- [value]="selectedCycles"
+<!-- [value]="selectedCycles"
     [value]="selectedState" -->

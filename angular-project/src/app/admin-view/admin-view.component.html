@@ -1,6 +1,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<h4>Estudiantes por aprobar</h4>
+<div class="custom-toolbar">
+    <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
+    <span class="mail-box">Estudiantes por aprobar</span>
+  </div>
+<!-- <h4>Estudiantes por aprobar</h4> -->
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSourcestudentsApproval">
         <ng-container matColumnDef="student_card">
@@ -27,10 +31,10 @@
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
             <td mat-cell *matCellDef="let student">
                 <button mat-icon-button (click)="approveStudent(student.id)">
-                    <mat-icon [ngStyle]="{'color':'lightgreen'}">create</mat-icon>
+                    <mat-icon [ngStyle]="{'color':'lightgreen'}">done</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" (click)="denyStudent(student.id)">
-                    <mat-icon [ngStyle]="{'color':'red'}">delete_outline</mat-icon>
+                    <mat-icon [ngStyle]="{'color':'red'}">clear</mat-icon>
                 </button>
             </td>
           </ng-container>
@@ -39,15 +43,60 @@
         <tr mat-row *matRowDef="let row; columns: studentApprovalColumns;"></tr>
 
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator #firstTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 
+<h4>Estudiantes registrados</h4>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSourceStudents">
+        <ng-container matColumnDef="studentCard">
+            <th mat-header-cell *matHeaderCellDef> Carné </th>
+            <td mat-cell *matCellDef="let student"> {{student.studentCard}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="studentName">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let student"> {{student.studentName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+            <td mat-cell *matCellDef="let student"> {{student.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mail">
+            <th mat-header-cell *matHeaderCellDef> Correo </th>
+            <td mat-cell *matCellDef="let student"> {{student.mail}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell *matCellDef="let student"> {{student.status}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+            <td mat-cell *matCellDef="let student">
+                <button mat-icon-button (click)="deleteStudent(student.id)">
+                    <mat-icon [ngStyle]="{'color':'lightgreen'}">create</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteStudent(student.id)">
+                    <mat-icon [ngStyle]="{'color':'red'}">delete_outline</mat-icon>
+                </button>
+            </td>
+          </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="studentColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: studentColumns;"></tr>
+
+    </table>
+    <mat-paginator #fourthTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
 
 <h4>Profesores registrados</h4>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSourceProfessors">
     
-
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Nombre </th>
             <td mat-cell *matCellDef="let professor"> {{professor.name}} </td>
@@ -66,11 +115,12 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
             <td mat-cell *matCellDef="let professor">
-
-                <a [routerLink]=""> Editar |</a>
-                <a [routerLink]=""(click)="deleteProfessor(professor.id)"> Borrar </a>
-
-                
+                <button mat-icon-button (click)="editProfessor(professor.id)">
+                    <mat-icon [ngStyle]="{'color':'lightgreen'}">create</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteProfessor(professor.id)">
+                    <mat-icon [ngStyle]="{'color':'red'}">delete_outline</mat-icon>
+                </button>
             </td>
           </ng-container>
 
@@ -78,14 +128,13 @@
         <tr mat-row *matRowDef="let row; columns: professorColumns;"></tr>
         
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator #secondTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 
 <h4>Cursos registrados</h4>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSourceCourses">
     
-
         <ng-container matColumnDef="initials">
             <th mat-header-cell *matHeaderCellDef> Iniciales </th>
             <td mat-cell *matCellDef="let course"> {{course.initials}} </td>
@@ -114,67 +163,105 @@
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> Acciones</th>
             <td mat-cell *matCellDef="let course">
-                <a [routerLink]=""> Editar |</a>
-                <a [routerLink]=""(click)="deleteCourse(course.id)"> Borrar </a>
-
-                
+                <button mat-icon-button (click)="editCourse(course.id)">
+                    <mat-icon [ngStyle]="{'color':'lightgreen'}">create</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteCourse(course.id)">
+                    <mat-icon [ngStyle]=" {'color':'red'}">delete_outline</mat-icon>
+                </button>
             </td>
-          </ng-container>
+        </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="courseColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: courseColumns;"></tr>
         
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator #thirdTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<h4>Noticias</h4>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSourceNews">
+    
+        <ng-container matColumnDef="dateTime">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td mat-cell *matCellDef="let news"> {{news.dateTime}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="authorName">
+            <th mat-header-cell *matHeaderCellDef> Autor </th>
+            <td mat-cell *matCellDef="let news"> {{news.authorName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Título </th>
+            <td mat-cell *matCellDef="let news"> {{news.title}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="text">
+            <th mat-header-cell *matHeaderCellDef> Noticia </th>
+            <td mat-cell *matCellDef="let news"> {{ news.text }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+            <td mat-cell *matCellDef="let news">
+                <button mat-icon-button (click)="editNews(news.id)">
+                    <mat-icon [ngStyle]="{'color':'lightgreen'}">create</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteNews(news.id)">
+                    <mat-icon [ngStyle]=" {'color':'red'}">delete_outline</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="newsColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: newsColumns;"></tr>
+        
+    </table>
+    <mat-paginator #fifthTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
 
 <h4>Comentarios</h4>
-<kendo-grid [kendoGridBinding]="gridComments" 
-              [filterable]="true" 
-              [groupable]="true" 
-              [sortable]="{
-                allowUnsort: true,
-                mode: 'multiple'
-                }" 
-            [pageSize]="10" 
-            [pageable]="true" 
-            [height]="510">
-    <kendo-grid-column field="dateTime" title="Fecha" [width]="120"></kendo-grid-column>
-    <kendo-grid-column field="authorName" title="Autor" [width]="140"></kendo-grid-column>
-    <kendo-grid-column field="text" title="Comentario" [width]="120"></kendo-grid-column>
-    <kendo-grid-column field="newsName" title="Título Noticia" [width]="100">
-        <ng-template kendoGridCellTemplate>
-            <p>{{ newsName }}</p>
-        </ng-template>
-    </kendo-grid-column>
-    <kendo-grid-column title="Acciones" [width]="100">
-        <ng-template kendoGridCellTemplate>
-            <a [routerLink]=""> Borrar </a>
-        </ng-template>
-    </kendo-grid-column>
-  </kendo-grid>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSourceComments">
+    
+        <ng-container matColumnDef="dateTime">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td mat-cell *matCellDef="let comments"> {{comments.dateTime}} </td>
+        </ng-container>
 
-<h4>Noticias</h4>
-<kendo-grid [kendoGridBinding]="gridNews" 
-              [filterable]="true" 
-              [groupable]="true" 
-              [sortable]="{
-                allowUnsort: true,
-                mode: 'multiple'
-                }" 
-            [pageSize]="10" 
-            [pageable]="true" 
-            [height]="510">
-    <kendo-grid-column field="dateTime" title="Fecha" [width]="120"></kendo-grid-column>
-    <kendo-grid-column field="authorName" title="Autor" [width]="140"></kendo-grid-column>
-    <kendo-grid-column field="title" title="Título Noticia" [width]="120"></kendo-grid-column>
-    <kendo-grid-column title="Acciones" [width]="100">
-        <ng-template kendoGridCellTemplate>
-            <a [routerLink]=""> Editar |</a>
-            <a [routerLink]=""> Borrar </a>
-        </ng-template>
-    </kendo-grid-column>
-  </kendo-grid>
+        <ng-container matColumnDef="authorName">
+            <th mat-header-cell *matHeaderCellDef> Autor </th>
+            <td mat-cell *matCellDef="let comments"> {{comments.authorName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="text">
+            <th mat-header-cell *matHeaderCellDef> Comentario </th>
+            <td mat-cell *matCellDef="let comments"> {{comments.text}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="newsName">
+            <th mat-header-cell *matHeaderCellDef> Noticia </th>
+            <td mat-cell *matCellDef="let comments"> {{newsName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+            <td mat-cell *matCellDef="let comments">
+                <button mat-icon-button (click)="deleteComment(comments.id)">
+                    <mat-icon [ngStyle]=" {'color':'red'}">delete_outline</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="commentsColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: commentsColumns;"></tr>
+        
+    </table>
+    <mat-paginator #sixthTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+    
 
 
 

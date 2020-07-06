@@ -44,3 +44,14 @@
   #title{
     color: rgba(74, 149, 247, 0.96);
   }
+
+
+  .custom-toolbar {
+    width: 200%;
+    background-color:#a9cce3;
+    line-height: 50px;
+    border-bottom: inset;
+    /* border-bottom-width: 1px; */
+    padding: 3px 8px;
+    color: #000000;
+}

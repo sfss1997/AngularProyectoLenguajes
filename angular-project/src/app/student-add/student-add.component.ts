@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { RestService } from '../rest.service';
 import { StudentServiceService } from '../student-service.service';
 import { LocationService } from '../location.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-student-add',
@@ -11,7 +11,7 @@ import { LocationService } from '../location.service';
 })
 export class StudentAddComponent implements OnInit {
 
-  @Input() studentData = { studentId: 0, name:'', age: 0, nationality: 0, major:0};
+  @Input() studentData = { studentCard: '', studentName: '', lastName:'', mail: '', username: '', password:''};
   value: Date = new Date(2000, 2, 10);
   provinces: any = [];
   cantons: any = [];
@@ -29,16 +29,44 @@ export class StudentAddComponent implements OnInit {
   public defaultItemDistrict: { name: string, id: number } = { name: "Select district", id: null };
   
   constructor(private router: Router, private studentService: StudentServiceService,
-    private locationService: LocationService) { }
+    private locationService: LocationService,  public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getProvinces();
   }
 
   addStudent() {
-    this.studentService.addStudent(this.studentData).subscribe((data: {}) => {
-      console.log(data);
+
+    var yy = this.value.getFullYear();
+    var mm = this.value.getUTCMonth()+1;
+    var dd = this.value.getUTCDate();
+    var date = yy+'-'+mm+'-'+dd;
+
+    var student = {
+      "studentCard": this.studentData.studentCard,
+      "username": this.studentData.username,
+      "password": this.studentData.password,
+      "isAdministrator": 0,
+      "status": 'Activo',
+      "studentName": this.studentData.studentName,
+      "lastName": this.studentData.lastName,
+      "birthday": date,
+      "mail": this.studentData.mail,
+      "provinceId": this.selectedProvince.id,
+      "cantonId": this.selectedCanton.id,
+      "districtId": this.selectedDistrict.id,
+      "registrationStatus": "En espera"
+  };
+
+    this.studentService.addStudent(student).subscribe((data: {}) => {
+      this.openSnackBar('Estudiante registrado', '');
       this.router.navigate(['/home']);
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
     });
   }
 
