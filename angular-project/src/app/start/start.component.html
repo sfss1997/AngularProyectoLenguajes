@@ -1,8 +1,10 @@
 <div class="custom-toolbar">
     <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
     <span class="mail-box">Bienvenidos al portal de la Universidad de Costa Rica </span>
-    <button kendoButton [icon]="'user'" [look]="'outline'" (click)="registerStudent()">Registrarse</button>
-    <button kendoButton [icon]="'login'" [look]="'outline'" (click)="login()">Iniciar sesión</button>
+    <button mat-button id="btnUser" type="submit" (click)="registerStudent()">Registrarse</button>
+    <button mat-button id="btnLogin" type="submit" (click)="login()">Iniciar sesión</button>
+    <!-- <button kendoButton [icon]="'user'" [look]="'outline'" (click)="registerStudent()">Registrarse</button>
+    <button kendoButton [icon]="'login'" [look]="'outline'" (click)="login()">Iniciar sesión</button> -->
 </div>
 
 
