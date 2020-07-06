@@ -54,6 +54,12 @@ export class ProfessorViewComponent implements OnInit {
     this.getProfessorById();
   }
 
+  //PROFILE
+  editProfile() {
+    
+  }
+
+  //PUBLIC CONSULTATION
   public onSelect(ev: DrawerSelectEvent): void {
     this.selected = ev.item.text;
     if (this.selected == 'Cerrar sesión') {

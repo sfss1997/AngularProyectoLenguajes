@@ -47,3 +47,8 @@ kendo-drawer-container {
 .pre-scrollable {
     overflow-x: hidden;
 }
+
+table {
+    width: 90%;
+    margin:1rem auto;
+  }

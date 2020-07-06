@@ -14,6 +14,17 @@
     <kendo-drawer-content class="pre-scrollable">
 
         <div *ngIf="selected === 'Perfil'">
+            <h3>Datos personales</h3>
+            <h4>Nombre de usuario: {{ professor.username }}</h4>
+            <h4>Correo electrónico: {{ professor.mail }}</h4>
+            <h4>Grado Acádemico: {{ professor.AcademicDegree }}</h4>
+            <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
+            <h3>Ubicación</h3>
+            <h4>Provincia: {{ professor.province }}</h4>
+            <h4>Cantón: {{ professor.canton }}</h4>
+            <h4>Distrito: {{ professor.district }}</h4>
+
+            <button mat-button (click)="editProfile()">Editar perfil</button>
         </div>
 
         <div  *ngIf="selected === 'Noticias'">

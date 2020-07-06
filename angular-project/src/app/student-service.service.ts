@@ -61,7 +61,11 @@ export class StudentServiceService {
     return this.http.post(this._url + 'addSocialNetwork', JSON.stringify(socialNetwork), httpOptions);
   }
 
-  updateStatus (status): Observable<any> {
-    return this.http.put(this._url + 'UpdateStatus', JSON.stringify(status), httpOptions);
+  approvalStudent (id): Observable<any> {
+    return this.http.put(this._url + 'Approval?id='+ id, httpOptions);
+  }
+
+  denyStudent (id): Observable<any> {
+    return this.http.put(this._url + 'Deny?id='+ id, httpOptions);
   }
 }

@@ -24,7 +24,6 @@ export class AdminViewComponent implements OnInit {
   studentsApproval:any = [];
   professors:any = [];
   student:any;
-  studentStatus:any = { id: 0, registrationStatus:''};
 
   studentApprovalColumns: string[] = ['student_card', 'student_name', 'last_name', 'mail', 'actions'];
   professorColumns: string[] = ['name', 'last_name', 'mail', 'actions'];
@@ -132,24 +131,14 @@ export class AdminViewComponent implements OnInit {
   }
 
   approveStudent(id) {
-    this.studentStatus = {
-        "id": id,
-        "registrationStatus": "Aprobado"
-      };
-
-    this.studentService.updateStatus(this.studentStatus).subscribe((result) => {
+    this.studentService.approvalStudent(id).subscribe((result) => {
       this.getStudentsApproval();
       this.getStudents();
     });
   }
 
   denyStudent(id) {
-    this.studentStatus = {
-        "id": id,
-        "registrationStatus": "Rechazado"
-      };
-
-    this.studentService.updateStatus(this.studentStatus).subscribe((result) => {
+    this.studentService.denyStudent(id).subscribe((result) => {
       this.getStudentsApproval();
       this.getStudents();
     });
@@ -159,6 +148,10 @@ export class AdminViewComponent implements OnInit {
     this.studentService.deleteStudent(id).subscribe(res => {
       this.getStudents();
     });
+  }
+
+  editStudent(id) {
+    this.router.navigate(['/student-update/', id]);
   }
 
   getProfessors() {

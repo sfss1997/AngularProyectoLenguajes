@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { DrawerItem, DrawerSelectEvent } from '@progress/kendo-angular-layout';
 import { CourseService } from '../course.service';
 import { StudentServiceService } from '../student-service.service';
@@ -7,6 +7,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProfessorService } from '../professor.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-student-view',
@@ -47,6 +49,14 @@ export class StudentViewComponent implements OnInit {
     { text: 'Borrar cuenta', icon: 'k-i-delete' }
   ];
 
+  courseColumns: string[] = ['initials', 'courseName', 'credits', 'professor_name'];
+
+  dataSourceCourses = new MatTableDataSource<any>();
+
+  @ViewChild('firstTable') paginatorCourses: MatPaginator;
+
+  enrolledCourses:any = [];
+
   constructor(private courseService: CourseService, private route: ActivatedRoute,
     private fb: FormBuilder, private studentService: StudentServiceService,
     private professorService: ProfessorService, private router: Router, public snackBar: MatSnackBar) { 
@@ -65,8 +75,25 @@ export class StudentViewComponent implements OnInit {
     this.getPublicConsultation();
     this.getStudentById();
     this.getCourses();
+    this.getEnrolledCourses();
   }
 
+  //PROFILE
+  editProfile() {
+
+  }
+
+  //COURSES
+  getEnrolledCourses() {
+    this.enrolledCourses = [];
+    this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((data: {}) => {
+      this.enrolledCourses = data;
+      this.dataSourceCourses = new MatTableDataSource<any>(this.enrolledCourses);
+      this.dataSourceCourses.paginator = this.paginatorCourses;
+    });
+  }
+
+  //PUBLIC CONSULTATION
   public onSelect(ev: DrawerSelectEvent): void {
     this.selected = ev.item.text;
     if (this.selected == 'Cerrar sesión') {

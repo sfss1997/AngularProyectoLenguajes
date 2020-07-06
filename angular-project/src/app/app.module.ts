@@ -41,6 +41,7 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { CourseUpdateComponent } from './course-update/course-update.component';
 import { ProfessorUpdateComponent } from './professor-update/professor-update.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { StudentUpdateComponent } from './student-update/student-update.component';
 
 const appRoutes: Routes = [
   {
@@ -99,6 +100,11 @@ const appRoutes: Routes = [
     data: { title: 'Actualizar curso' }
   },
   {
+    path: 'student-update/:id',
+    component: StudentUpdateComponent,
+    data: { title: 'Actualizar estudiante' }
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -120,7 +126,8 @@ const appRoutes: Routes = [
     LoginComponent,
     CourseAddComponent,
     CourseUpdateComponent,
-    ProfessorUpdateComponent
+    ProfessorUpdateComponent,
+    StudentUpdateComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
