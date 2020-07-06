@@ -61,4 +61,8 @@ export class ProfessorService {
   updateImage (image): Observable<any> {
     return this.http.put(this._url + 'UpdateImage', JSON.stringify(image), httpOptions);
   }
+
+  getAcademicDregrees(): Observable<any> {
+    return this.http.get<any>(this._url + 'ListAcademicDegree');
+  }
 }
