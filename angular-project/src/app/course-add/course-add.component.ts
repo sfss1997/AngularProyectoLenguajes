@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CourseService } from '../course.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-course-add',
@@ -15,7 +16,8 @@ export class CourseAddComponent implements OnInit {
   @Input() courseData = { id: 0, initials:'', name: '', is_active: 0, credits:0, cycle:''};
   public selectedState: { text: string, value: number};
   public selectedCycles: { text: string, value: number};
-  constructor(private fb: FormBuilder,private courseService: CourseService) {  
+  constructor(private fb: FormBuilder,private courseService: CourseService,
+    public snackBar: MatSnackBar, private router: Router) {  
     
 
     this.courseForm = this.fb.group({
@@ -55,9 +57,18 @@ addCourse() {
     "cycle": this.selectedCycles.value
   };
 
-   this.courseService.add(this.course).subscribe((result) => { 
+   this.courseService.add(this.course).subscribe((result) => {
+    this.openSnackBar('Curso añadido', ''); 
+    this.router.navigate(['/admin-view', 1]);
   });
 }
+
+openSnackBar(message: string, action: string) {
+  this.snackBar.open(message, action, {
+    duration: 2000,
+  });
+}
+
 cycleChange(value) {
   this.selectedCycles = value;
 }

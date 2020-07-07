@@ -42,6 +42,8 @@ import { CourseUpdateComponent } from './course-update/course-update.component';
 import { ProfessorUpdateComponent } from './professor-update/professor-update.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { StudentUpdateComponent } from './student-update/student-update.component';
+import { NewsAddComponent } from './news-add/news-add.component';
+import { NewsUpdateComponent } from './news-update/news-update.component';
 
 const appRoutes: Routes = [
   {
@@ -50,7 +52,7 @@ const appRoutes: Routes = [
     data: { title: 'Home' }
   },
   {
-    path: 'admin-view',
+    path: 'admin-view/:id',
     component: AdminViewComponent,
     data: { title: 'Admin' }
   },
@@ -105,6 +107,16 @@ const appRoutes: Routes = [
     data: { title: 'Actualizar estudiante' }
   },
   {
+    path: 'news-add/:id',
+    component: NewsAddComponent,
+    data: { title: 'Añadir noticia' }
+  },
+  {
+    path: 'news-update/:id',
+    component: NewsUpdateComponent,
+    data: { title: 'Actualizar noticia' }
+  },
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -127,7 +139,9 @@ const appRoutes: Routes = [
     CourseAddComponent,
     CourseUpdateComponent,
     ProfessorUpdateComponent,
-    StudentUpdateComponent
+    StudentUpdateComponent,
+    NewsAddComponent,
+    NewsUpdateComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

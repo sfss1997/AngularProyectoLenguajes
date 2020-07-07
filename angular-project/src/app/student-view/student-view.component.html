@@ -2,138 +2,140 @@
     <button kendoButton icon="menu" look="flat" (click)="drawer.toggle()"></button>
     <span class="mail-box">Bienvenido(a) {{ student.studentName}} {{ student.lastName}}</span>
 </div>
-<kendo-drawer-container >
+<kendo-drawer-container>
     <kendo-drawer #drawer class="drawer" [items]="items" [mode]="'push'" [mini]="true" [expanded]="true"
-        (select)="onSelect($event)">
-    </kendo-drawer>
+        (select)="onSelect($event)"></kendo-drawer>
 
-    <kendo-drawer-content class="pre-scrollable">
+        <kendo-drawer-content class="pre-scrollable">
+            <div *ngIf="selected === 'Perfil'">
+                <h3>Datos personales</h3>
+                <h4>Carné: {{ student.studentCard }}</h4>
+                <h4>Nombre de usuario: {{ student.username }}</h4>
+                <h4>Correo electrónico: {{ student.mail }}</h4>
+                <h4>Fecha de nacimiento: {{ student.birthday }}</h4>
+                <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
+                <h3>Ubicación</h3>
+                <h4>Provincia: {{ student.province }}</h4>
+                <h4>Cantón: {{ student.canton }}</h4>
+                <h4>Distrito: {{ student.district }}</h4>
 
-        <div *ngIf="selected === 'Perfil'">
-            <h3>Datos personales</h3>
-            <h4>Carné: {{ student.studentCard }}</h4>
-            <h4>Nombre de usuario: {{ student.username }}</h4>
-            <h4>Correo electrónico: {{ student.mail }}</h4>
-            <h4>Fecha de nacimiento: {{ student.birthday }}</h4>
-            <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
-            <h3>Ubicación</h3>
-            <h4>Provincia: {{ student.province }}</h4>
-            <h4>Cantón: {{ student.canton }}</h4>
-            <h4>Distrito: {{ student.district }}</h4>
-
-            <button mat-button (click)="editProfile()">Editar perfil</button>
-        </div>
-
-        <div *ngIf="selected === 'Noticias'">
-        </div>
-
-        <div *ngIf="selected === 'Cursos'">
-            <div class="mat-elevation-z8">
-                <table mat-table [dataSource]="dataSourceCourses">
-            
-                    <ng-container matColumnDef="initials">
-                        <th mat-header-cell *matHeaderCellDef> Siglas </th>
-                        <td mat-cell *matCellDef="let course"> {{course.initials}} </td>
-                    </ng-container>
-            
-                    <ng-container matColumnDef="courseName">
-                        <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                        <td mat-cell *matCellDef="let course"> {{course.courseName}} </td>
-                    </ng-container>
-            
-                    <ng-container matColumnDef="credits">
-                        <th mat-header-cell *matHeaderCellDef> Créditos </th>
-                        <td mat-cell *matCellDef="let course"> {{course.credits}} </td>
-                    </ng-container>
-            
-                    <ng-container matColumnDef="professor_name">
-                        <th mat-header-cell *matHeaderCellDef> Profesor </th>
-                        <td mat-cell *matCellDef="let course"> {{course.professor_name}} </td>
-                    </ng-container>
-            
-                    <tr mat-header-row *matHeaderRowDef="courseColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: courseColumns;"></tr>
-            
-                </table>
-                <mat-paginator #firstTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                <button mat-button (click)="editProfile()">Editar perfil</button>
             </div>
-        </div>
 
-        <div *ngIf="selected === 'Consulta pública'">
-            <div class="row">
-                <div class="col-md-6">
-                    <ul>
-                        <li *ngFor="let p of publicConsultation">
-                            <h5> Consulta: {{ p.motive }}
-                                <button kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)"
-                                    (click)="getCourseById(p.course_id)"></button>
-                            </h5 >
-                            Fecha: {{ p.dateTime }}
-                        </li>
-                    </ul>
-        
-                    <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
-        
-                    <div class="repliesPublicConsultation" *ngIf="show === true">
-                        <h4>Respuestas</h4>
-                        <h5>Curso: {{ course.name }}</h5>
+            <div *ngIf="selected === 'Noticias'">
+                <kendo-scrollview #sv [data]="itemsNews" [width]="width" [height]="height" [animate]="true"
+                    [arrows]="true" [pageable]="true" [endless]="true">
+                    <ng-template let-item="item">
+                        <h3>Título: {{item.title}}</h3>
+                        <h4>Noticia: {{item.text}}</h4>
+                        <h4>Noticia: {{item.text}}</h4>
+                    </ng-template>
+                </kendo-scrollview>
+            </div>
+
+            <div *ngIf="selected === 'Cursos'">
+                <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSourceCourses">
+
+                        <ng-container matColumnDef="initials">
+                            <th mat-header-cell *matHeaderCellDef> Siglas </th>
+                            <td mat-cell *matCellDef="let course"> {{course.initials}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="courseName">
+                            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                            <td mat-cell *matCellDef="let course"> {{course.courseName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="credits">
+                            <th mat-header-cell *matHeaderCellDef> Créditos </th>
+                            <td mat-cell *matCellDef="let course"> {{course.credits}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="professor_name">
+                            <th mat-header-cell *matHeaderCellDef> Profesor </th>
+                            <td mat-cell *matCellDef="let course"> {{course.professor_name}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="courseColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: courseColumns;"></tr>
+
+                    </table>
+                    <mat-paginator #firstTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+
+            <div *ngIf="selected === 'Consulta pública'">
+                <div class="row">
+                    <div class="col-md-6">
                         <ul>
-                            <li *ngFor="let r of repliesPublicConsultation">
-                                <h5> {{ r.motive }} </h5>
-                                Fecha: {{ r.dateTime }}
+                            <li *ngFor="let p of publicConsultation">
+                                <h5> Consulta: {{ p.motive }}
+                                    <button kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)"
+                                        (click)="getCourseById(p.course_id)"></button>
+                                </h5>
+                                Fecha: {{ p.dateTime }}
                             </li>
                         </ul>
-                        <form [formGroup]="repliesPublicConsultationForm" (ngSubmit)="addRepliesPublicConsultation(currentPublicConsultation)"
+
+                        <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
+
+                        <div class="repliesPublicConsultation" *ngIf="show === true">
+                            <h4>Respuestas</h4>
+                            <h5>Curso: {{ course.name }}</h5>
+                            <ul>
+                                <li *ngFor="let r of repliesPublicConsultation">
+                                    <h5> {{ r.motive }} </h5>
+                                    Fecha: {{ r.dateTime }}
+                                </li>
+                            </ul>
+                            <form [formGroup]="repliesPublicConsultationForm"
+                                (ngSubmit)="addRepliesPublicConsultation(currentPublicConsultation)" #formDir="ngForm">
+                                <div class="col-md-4">
+                                    <h4>Añadir respuesta</h4>
+                                    <input name="repliesPublicConsultation" formControlName="repliesForm"
+                                        class="form-control" type="text" autocomplete="off" size="20">
+                                    <br>
+                                    <button kendoButton [icon]="'comment'" type="submit"></button>
+                                    <span class="text-danger"
+                                        *ngIf="repliesPublicConsultationForm.hasError('required', 'repliesForm') && formDir.submitted">
+                                        Debe escribir una respuesta.
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h4>Enviar nueva consulta</h4>
+                        <form [formGroup]="publicConsultationForm" (ngSubmit)="addPublicConsultation()"
                             #formDir="ngForm">
-                            <div class="col-md-4">
-                                <h4>Añadir respuesta</h4>
-                                <input name="repliesPublicConsultation" formControlName="repliesForm" class="form-control"
-                                    type="text" autocomplete="off" size="20">
-                                <br>
-                                <button kendoButton [icon]="'comment'" type="submit"></button>
-                                <span class="text-danger"
-                                    *ngIf="repliesPublicConsultationForm.hasError('required', 'repliesForm') && formDir.submitted">
-                                    Debe escribir una respuesta.
-                                </span>
-                            </div>
+                            <label class="control-label">Consulta:</label>
+                            <input name="publicConsultation" formControlName="addPublicConsultationForm"
+                                class="form-control" type="text" autocomplete="off" size="10">
+                            <br>
+                            <label class="control-label">Curso: </label>
+                            <kendo-dropdownlist [data]="courses" [valueField]="'course_id'" [textField]="'courseName'"
+                                [defaultItem]="defaultItemCourse" (valueChange)="courseChange($event)"
+                                [value]="selectedCourse">
+                            </kendo-dropdownlist>
+                            <br>
+                            <br>
+                            <button kendoButton type="submit">Enviar</button>
+                            <span class="text-danger"
+                                *ngIf="publicConsultationForm.hasError('required', 'addPublicConsultationForm') && formDir.submitted">
+                                Debe escribir una consulta.
+                            </span>
                         </form>
                     </div>
                 </div>
-        
-                <div class="col-md-4">
-                    <h4>Enviar nueva consulta</h4>
-                    <form [formGroup]="publicConsultationForm" (ngSubmit)="addPublicConsultation()"
-                            #formDir="ngForm">
-                    <label class="control-label">Consulta:</label>
-                    <input name="publicConsultation" formControlName="addPublicConsultationForm" class="form-control" type="text"
-                        autocomplete="off" size="10">
-                        <br>
-                    <label class="control-label">Curso: </label>
-                    <kendo-dropdownlist
-                    [data]="courses" 
-                    [valueField]="'course_id'"
-                    [textField]="'courseName'"
-                    [defaultItem]="defaultItemCourse"
-                    (valueChange)="courseChange($event)"
-                    [value]="selectedCourse">
-                    </kendo-dropdownlist>
-                    <br>
-                    <br>
-                    <button kendoButton type="submit">Enviar</button>
-                    <span class="text-danger"
-                        *ngIf="publicConsultationForm.hasError('required', 'addPublicConsultationForm') && formDir.submitted">
-                        Debe escribir una consulta.
-                    </span>
-                </form>
-                </div> 
             </div>
-        </div>
 
-        <div *ngIf="selected === 'Consulta privada'">
-            
-        </div>
+            <div *ngIf="selected === 'Consulta privada'">
 
-        <div *ngIf="selected === 'Citas de atención'">
-        </div>
-    </kendo-drawer-content>
+            </div>
+
+            <div *ngIf="selected === 'Citas de atención'">
+            </div>
+        </kendo-drawer-content>
 </kendo-drawer-container>

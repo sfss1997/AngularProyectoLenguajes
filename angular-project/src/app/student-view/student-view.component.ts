@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { RestService } from '../rest.service';
 
 @Component({
   selector: 'app-student-view',
@@ -17,7 +18,34 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class StudentViewComponent implements OnInit {
 
+  //START
   public selected = 'Perfil';
+  public items: Array<DrawerItem> = [
+    { text: 'Perfil', icon: 'k-i-user', selected: true  },
+    { text: 'Noticias', icon: 'k-i-form-element'},
+    { text: 'Cursos', icon: 'k-i-change-manually' },
+    { text: 'Consulta pública', icon: 'k-i-unlock' }, 
+    { text: 'Consulta privada', icon: 'k-i-lock' },
+    { text: 'Citas de atención', icon: 'k-i-calendar' }, { separator: true },
+    { text: 'Cerrar sesión', icon: 'k-i-logout' },
+    { text: 'Borrar cuenta', icon: 'k-i-delete' }
+  ];
+
+  //NEWS
+  @ViewChild('sv') private scrollView;
+  public paused = false;
+  public width: string = "100%";
+  public height: string = "300px";
+  public itemsNews:any = [];
+  private interval;
+
+  //COURSES
+  courseColumns: string[] = ['initials', 'courseName', 'credits', 'professor_name'];
+  dataSourceCourses = new MatTableDataSource<any>();
+  @ViewChild('firstTable') paginatorCourses: MatPaginator;
+  enrolledCourses:any = [];
+
+  //PUBLIC CONSULTATION
   public studentCourses:any = [];
   public selectedCourse: { courseName: string, course_id: number};
   public defaultItemCourse: { courseName: string, course_id: number } = { courseName: "Seleccione un curso", course_id: null };
@@ -35,31 +63,12 @@ export class StudentViewComponent implements OnInit {
   courses:any = [];
   professorCourse:any;
   currentPublicConsultation:any = {};
-
   publicConsult:any = { courseId: 0, professorId: 0};
-
-  public items: Array<DrawerItem> = [
-    { text: 'Perfil', icon: 'k-i-user', selected: true  },
-    { text: 'Noticias', icon: 'k-i-form-element'},
-    { text: 'Cursos', icon: 'k-i-change-manually' },
-    { text: 'Consulta pública', icon: 'k-i-unlock' }, 
-    { text: 'Consulta privada', icon: 'k-i-lock' },
-    { text: 'Citas de atención', icon: 'k-i-calendar' }, { separator: true },
-    { text: 'Cerrar sesión', icon: 'k-i-logout' },
-    { text: 'Borrar cuenta', icon: 'k-i-delete' }
-  ];
-
-  courseColumns: string[] = ['initials', 'courseName', 'credits', 'professor_name'];
-
-  dataSourceCourses = new MatTableDataSource<any>();
-
-  @ViewChild('firstTable') paginatorCourses: MatPaginator;
-
-  enrolledCourses:any = [];
 
   constructor(private courseService: CourseService, private route: ActivatedRoute,
     private fb: FormBuilder, private studentService: StudentServiceService,
-    private professorService: ProfessorService, private router: Router, public snackBar: MatSnackBar) { 
+    private professorService: ProfessorService, private router: Router, 
+    public snackBar: MatSnackBar, private restService: RestService) { 
       this.repliesPublicConsultationForm = this.fb.group({
         repliesForm: ['', [Validators.required]]
       })
@@ -76,24 +85,9 @@ export class StudentViewComponent implements OnInit {
     this.getStudentById();
     this.getCourses();
     this.getEnrolledCourses();
+    this.getNews();
   }
 
-  //PROFILE
-  editProfile() {
-
-  }
-
-  //COURSES
-  getEnrolledCourses() {
-    this.enrolledCourses = [];
-    this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((data: {}) => {
-      this.enrolledCourses = data;
-      this.dataSourceCourses = new MatTableDataSource<any>(this.enrolledCourses);
-      this.dataSourceCourses.paginator = this.paginatorCourses;
-    });
-  }
-
-  //PUBLIC CONSULTATION
   public onSelect(ev: DrawerSelectEvent): void {
     this.selected = ev.item.text;
     if (this.selected == 'Cerrar sesión') {
@@ -114,6 +108,42 @@ export class StudentViewComponent implements OnInit {
     });
   }
 
+  //NEWS
+  getNews() {
+    this.enrolledCourses = [];
+    this.restService.getNews().subscribe((data: {}) => {
+      this.itemsNews = data;
+    });
+  }
+
+  public ngAfterViewInit() {
+    this.interval = setInterval(() => {
+      if (!this.paused) {
+        this.scrollView.next();
+      }
+    }, 4000);
+  }
+
+  public ngOnDestroy() {
+    clearInterval(this.interval);
+  }
+
+  //PROFILE
+  editProfile() {
+
+  }
+
+  //COURSES
+  getEnrolledCourses() {
+    this.enrolledCourses = [];
+    this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((data: {}) => {
+      this.enrolledCourses = data;
+      this.dataSourceCourses = new MatTableDataSource<any>(this.enrolledCourses);
+      this.dataSourceCourses.paginator = this.paginatorCourses;
+    });
+  }
+
+  //PUBLIC CONSULTATION
   courseChange(value) {
     this.selectedCourse = value;
   }
@@ -131,9 +161,11 @@ export class StudentViewComponent implements OnInit {
           "professorId": s.professor_id
         };
       });
-
+      console.log(this.publicConsult);
       this.courseService.getPublicConsultation(this.publicConsult).subscribe((result: {}) => {
         this.publicConsultation = result;
+        console.log("hola");
+        console.log(this.publicConsultation);
       });
     });
   }

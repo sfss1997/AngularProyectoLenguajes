@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { LocationService } from '../location.service';
 import { ProfessorService } from '../professor.service';
-import { ActivatedRoute } from '@angular/router';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-professor-update',
   templateUrl: './professor-update.component.html',
@@ -44,7 +44,8 @@ export class ProfessorUpdateComponent implements OnInit {
     { name: 'Inactivo', id: 0 }
   ];
   
-  constructor(private route: ActivatedRoute, private locationService: LocationService, private professorService: ProfessorService) { }
+  constructor(private route: ActivatedRoute, private locationService: LocationService, 
+    private professorService: ProfessorService, public snackBar: MatSnackBar, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -91,11 +92,17 @@ export class ProfessorUpdateComponent implements OnInit {
       "districtId": this.selectedDistrict.id,
       "academicDegree": this.selectedAcademicDegree.id
   };
-    this.professorService.updateProfessor(professor).subscribe((result) => {});
+    this.professorService.updateProfessor(professor).subscribe((result) => {
+      this.openSnackBar('Profesor actualizado', '');
+      this.router.navigate(['/admin-view', 1]);
+    });
   }
 
-
- 
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 
   getProvinces() {
     this.locationService.getProvinces().subscribe((data: {}) => {

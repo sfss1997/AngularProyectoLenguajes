@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { LocationService } from '../location.service';
 import { ProfessorService } from '../professor.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-professor-add',
@@ -44,7 +45,8 @@ export class ProfessorAddComponent implements OnInit {
     { name: 'Inactivo', id: 0 }
   ];
   
-  constructor(private locationService: LocationService, private professorService: ProfessorService) { }
+  constructor(private locationService: LocationService, private professorService: ProfessorService,
+    public snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
     this.getProvinces();
@@ -86,10 +88,17 @@ export class ProfessorAddComponent implements OnInit {
       "districtId": this.selectedDistrict.id,
       "academicDegree": this.selectedAcademicDegree.id
   };
-    this.professorService.addProfessor(professor).subscribe((result) => {});
+    this.professorService.addProfessor(professor).subscribe((result) => {
+      this.openSnackBar('Profesor añadido', '');
+      this.router.navigate(['/admin-view', 1]);
+    });
   }
 
- 
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 
   getProvinces() {
     this.locationService.getProvinces().subscribe((data: {}) => {

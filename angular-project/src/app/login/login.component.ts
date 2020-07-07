@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit {
     });
 
     if(this.user.username == 'admin' && this.user.password == 'admin') {
-      this.router.navigate(['/admin-view']);
-    }
+      this.router.navigate(['/admin-view', 1]);
+    } 
   }
 
   openSnackBar(message: string, action: string) {

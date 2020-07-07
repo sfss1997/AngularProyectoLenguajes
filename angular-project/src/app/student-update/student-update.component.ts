@@ -67,7 +67,7 @@ export class StudentUpdateComponent implements OnInit {
     };
 
     this.studentService.updateStudent(student).subscribe((result) => {
-      this.router.navigate(['/admin-view']);
+      this.router.navigate(['/admin-view', 1]);
       this.openSnackBar('Estudiante actualizado', '');
     });
   }
