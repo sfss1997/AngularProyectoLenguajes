@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div class="custom-toolbar">
     <button kendoButton icon="menu" look="flat" (click)="drawer.toggle()"></button>
     <span class="mail-box">Bienvenido(a) {{ professor.name}} {{ professor.lastName}}</span>
@@ -28,6 +29,42 @@
         </div>
 
         <div  *ngIf="selected === 'Noticias'">
+            <kendo-scrollview #sv [data]="itemsNews" [width]="width" [height]="height" [animate]="true"
+                    [arrows]="true" [pageable]="true" [endless]="true">
+                    <ng-template let-item="item">
+                        <h2 class="scroll-view-title">
+                            {{item.title}}
+                            <br>
+                            <br>
+                            <br>
+                            Noticia: {{item.text}}
+                            <br>
+                            Autor: {{item.authorName}}
+                            <br>
+                            Fecha publicación: {{item.dateTime}}
+                            <br>
+                            <button mat-button (click)="getComments(item.id)">Ver comentarios</button>
+                        </h2>
+                        <img src='./assets/firma-horizontal-dos-lineas-cmky2.png' draggable="false" />
+                    </ng-template>
+                </kendo-scrollview>
+                <mat-list>
+                    <div mat-subheader>Comentarios para noticia: {{currentNewsName}}</div>
+                    <mat-list-item *ngFor="let comment of comments">
+                      <mat-icon mat-list-icon>comment</mat-icon>
+                      <div mat-line>{{comment.authorName}}: {{comment.text}}</div>
+                      <div mat-line> {{comment.dateTime | date}} </div>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <div mat-subheader></div>
+                    <mat-form-field style="width:400px">
+                        <textarea matInput type="text" placeholder="Nuevo comentario..." [(ngModel)]="commentData.comment"
+                            name="comment"></textarea>
+                        </mat-form-field>
+                        <button mat-button (click)="addComment()">
+                            <mat-icon mat-list-icon>send</mat-icon>
+                        </button>
+                  </mat-list>
         </div>
 
         <div *ngIf="selected === 'Cursos'">

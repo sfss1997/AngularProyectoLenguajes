@@ -44,6 +44,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { StudentUpdateComponent } from './student-update/student-update.component';
 import { NewsAddComponent } from './news-add/news-add.component';
 import { NewsUpdateComponent } from './news-update/news-update.component';
+import { UploadModule } from '@progress/kendo-angular-upload';
+import { MatListModule } from '@angular/material/list'
 
 const appRoutes: Routes = [
   {
@@ -168,7 +170,9 @@ const appRoutes: Routes = [
     MatSnackBarModule,
     PopupModule,
     ReactiveFormsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    UploadModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

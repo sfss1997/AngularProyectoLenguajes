@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild, Input} from '@angular/core';
 import { DrawerItem, DrawerSelectEvent } from '@progress/kendo-angular-layout';
 import { CourseService } from '../course.service';
 import { StudentServiceService } from '../student-service.service';
@@ -16,6 +16,7 @@ import { RestService } from '../rest.service';
   templateUrl: './student-view.component.html',
   styleUrls: ['./student-view.component.css']
 })
+
 export class StudentViewComponent implements OnInit {
 
   //START
@@ -31,13 +32,21 @@ export class StudentViewComponent implements OnInit {
     { text: 'Borrar cuenta', icon: 'k-i-delete' }
   ];
 
+  //PROFILE
+  uploadSaveUrl = './assets/'; 
+  uploadRemoveUrl = 'removeUrl'; 
+
   //NEWS
   @ViewChild('sv') private scrollView;
   public paused = false;
   public width: string = "100%";
-  public height: string = "300px";
+  public height: string = "350px";
   public itemsNews:any = [];
+  public comments:any = [];
   private interval;
+  @Input() commentData = { comment: ''};
+  public currentNews:any;
+  public currentNewsName:any;
 
   //COURSES
   courseColumns: string[] = ['initials', 'courseName', 'credits', 'professor_name'];
@@ -78,6 +87,7 @@ export class StudentViewComponent implements OnInit {
       })
     }
 
+  //START
   ngOnInit(): void {
     this.getStudents();
     this.getprofessors();
@@ -108,20 +118,12 @@ export class StudentViewComponent implements OnInit {
     });
   }
 
-  //NEWS
-  getNews() {
-    this.enrolledCourses = [];
-    this.restService.getNews().subscribe((data: {}) => {
-      this.itemsNews = data;
-    });
-  }
-
   public ngAfterViewInit() {
     this.interval = setInterval(() => {
       if (!this.paused) {
         this.scrollView.next();
       }
-    }, 4000);
+    }, 10000);
   }
 
   public ngOnDestroy() {
@@ -130,6 +132,49 @@ export class StudentViewComponent implements OnInit {
 
   //PROFILE
   editProfile() {
+
+  }
+
+  //NEWS
+  getNews() {
+    this.itemsNews = [];
+    this.restService.getNews().subscribe((data: {}) => {
+      this.itemsNews = data;
+    });
+  }
+
+  getComments(id) {
+    this.currentNews = id;
+    this.itemsNews.forEach(n => {
+      if (n.id == id) {
+        this.currentNewsName = n.title;
+      } 
+    });
+
+    this.comments = [];
+    this.restService.getCommentsByIdNews(id).subscribe((data: {}) => {
+      this.comments = data;
+    });
+  }
+
+  addComment() {
+    var date = new Date();
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+
+    var comment = {
+      'authorId': this.route.snapshot.params['id'],
+      'authorName': this.student.studentName + ' ' + this.student.lastName,
+      'text': this.commentData.comment,
+      'dateTime': yyyy + '-' + mm + '-' + dd,
+      'newsId': this.currentNews
+    };
+
+    this.restService.addComment(comment).subscribe((data: {}) => {
+      this.openSnackBar('Comentario añadido', '');
+      this.getComments(this.currentNews);
+    });
 
   }
 
@@ -161,11 +206,8 @@ export class StudentViewComponent implements OnInit {
           "professorId": s.professor_id
         };
       });
-      console.log(this.publicConsult);
       this.courseService.getPublicConsultation(this.publicConsult).subscribe((result: {}) => {
         this.publicConsultation = result;
-        console.log("hola");
-        console.log(this.publicConsultation);
       });
     });
   }

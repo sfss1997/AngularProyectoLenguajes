@@ -38,6 +38,7 @@
     "@progress/kendo-angular-popup": "^3.0.0",
     "@progress/kendo-angular-progressbar": "^0.2.3",
     "@progress/kendo-angular-scrollview": "^3.0.1",
+    "@progress/kendo-angular-upload": "^6.0.2",
     "@progress/kendo-data-query": "^1.0.0",
     "@progress/kendo-drawing": "^1.0.0",
     "@progress/kendo-theme-default": "latest",

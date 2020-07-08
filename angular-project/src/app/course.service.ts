@@ -84,7 +84,10 @@ export class CourseService {
   }
 
   getPrivateMessage(privateMessage): Observable<any> {
-    return this.http.get<any>(this._url + 'GetPrivateMessage'+ JSON.stringify(privateMessage));
+    this.params = this.params.append('courseId', privateMessage.courseId);
+    this.params = this.params.append('professorId', privateMessage.professorId);
+
+    return this.http.get<any>(this._url + 'GetPrivateMessage', { params: this.params });
   }
 
   getRepliesPublicConsultation(id): Observable<any> {
@@ -96,7 +99,11 @@ export class CourseService {
   }
 
   getAppointment(appointment): Observable<any> {
-    return this.http.get<any>(this._url + 'GetAppointment' + JSON.stringify(appointment));
+    this.params = this.params.append('studentId', appointment.studentId);
+    this.params = this.params.append('professorId', appointment.professorId);
+    this.params = this.params.append('courseId', appointment.courseId);
+
+    return this.http.get<any>(this._url + 'GetAppointment', { params: this.params });
   }
 
   getAppointmentById(id): Observable<any> {
