@@ -44,9 +44,9 @@ kendo-drawer-container {
     margin-left: 30px;
 }
 
-.pre-scrollable {
+/* .pre-scrollable {
     overflow-x: hidden;
-}
+} */
 
 table {
     width: 90%;
@@ -66,3 +66,32 @@ table {
     font-size: 24px;
     font-family: "Times New Roman", Times, serif;
 }
+
+#publicConsultUl{
+    margin-top: 35px;
+    
+}
+
+#btnSendConsultation, #btnSendResponse{
+    color : rgb(0, 0, 0);
+    background-color:#a9cce3;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-left: 2px;
+    }
+    
+    #btnSendConsultation:not([disabled]):hover, #btnSendResponse:not([disabled]):hover  {
+      background-color: rgba(31, 60, 100, 0.96);
+      color: white;
+    }
+    
+    #btnSendConsultation[disabled], #btnSendResponse[disabled] {
+      color : rgb(187, 187, 187);
+      background-color: rgba(230, 230, 229, 0.96);
+    }
+
+    #subtitle{
+
+        color: rgba(111, 147, 194, 0.96);
+    }
+    

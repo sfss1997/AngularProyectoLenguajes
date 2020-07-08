@@ -7,7 +7,9 @@
     <kendo-drawer #drawer class="drawer" [items]="items" [mode]="'push'" [mini]="true" [expanded]="true"
         (select)="onSelect($event)"></kendo-drawer>
 
-        <kendo-drawer-content class="pre-scrollable">
+    <div class="container">
+        <!-- <kendo-drawer-content> -->
+            <!-- <kendo-drawer-content class="pre-scrollable"></kendo-drawer-content> -->
             <div *ngIf="selected === 'Perfil'">
                 <h3>Datos personales</h3>
                 <h4>Carné: {{ student.studentCard }}</h4>
@@ -22,10 +24,8 @@
 
                 <button mat-button (click)="editProfile()">Editar perfil</button>
 
-                <kendo-upload
-                [saveUrl]="uploadSaveUrl"
-                [removeUrl]="uploadRemoveUrl">
-            </kendo-upload>
+                <kendo-upload [saveUrl]="uploadSaveUrl" [removeUrl]="uploadRemoveUrl">
+                </kendo-upload>
             </div>
 
             <div *ngIf="selected === 'Noticias'">
@@ -51,20 +51,20 @@
                 <mat-list>
                     <div mat-subheader>Comentarios para noticia: {{currentNewsName}}</div>
                     <mat-list-item *ngFor="let comment of comments">
-                      <mat-icon mat-list-icon>comment</mat-icon>
-                      <div mat-line>{{comment.authorName}}: {{comment.text}}</div>
-                      <div mat-line> {{comment.dateTime | date}} </div>
+                        <mat-icon mat-list-icon>comment</mat-icon>
+                        <div mat-line>{{comment.authorName}}: {{comment.text}}</div>
+                        <div mat-line> {{comment.dateTime | date}} </div>
                     </mat-list-item>
                     <mat-divider></mat-divider>
                     <div mat-subheader></div>
                     <mat-form-field style="width:400px">
-                        <textarea matInput type="text" placeholder="Nuevo comentario..." [(ngModel)]="commentData.comment"
-                            name="comment"></textarea>
-                        </mat-form-field>
-                        <button mat-button (click)="addComment()">
-                            <mat-icon mat-list-icon>send</mat-icon>
-                        </button>
-                  </mat-list>
+                        <textarea matInput type="text" placeholder="Nuevo comentario..."
+                            [(ngModel)]="commentData.comment" name="comment"></textarea>
+                    </mat-form-field>
+                    <button mat-button (click)="addComment()">
+                        <mat-icon mat-list-icon>send</mat-icon>
+                    </button>
+                </mat-list>
             </div>
 
             <div *ngIf="selected === 'Cursos'">
@@ -99,16 +99,17 @@
                 </div>
             </div>
 
-            <div *ngIf="selected === 'Consulta pública'">
-                <div class="row">
-                    <div class="col-md-6">
+            <div id="publicConsultUl" *ngIf="selected === 'Consulta pública'">
+                <h3 id="subtitle">Consulta Pública</h3>
+                <div class="row ">
+                    <div class="col-md-6 pre-scrollable">
                         <ul>
                             <li *ngFor="let p of publicConsultation">
                                 <h5> Consulta: {{ p.motive }}
-                                    <button kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)"
+                                    <button class="pull-right" kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)"
                                         (click)="getCourseById(p.course_id)"></button>
                                 </h5>
-                                Fecha: {{ p.dateTime }}
+                                Fecha: {{ p.dateTime | date }}
                             </li>
                         </ul>
 
@@ -120,17 +121,19 @@
                             <ul>
                                 <li *ngFor="let r of repliesPublicConsultation">
                                     <h5> {{ r.motive }} </h5>
-                                    Fecha: {{ r.dateTime }}
+                                    Fecha: {{ r.dateTime | date }}
                                 </li>
                             </ul>
                             <form [formGroup]="repliesPublicConsultationForm"
                                 (ngSubmit)="addRepliesPublicConsultation(currentPublicConsultation)" #formDir="ngForm">
                                 <div class="col-md-4">
                                     <h4>Añadir respuesta</h4>
-                                    <input name="repliesPublicConsultation" formControlName="repliesForm"
-                                        class="form-control" type="text" autocomplete="off" size="20">
+                                    
+                                    <textarea name="repliesPublicConsultation" formControlName="repliesForm"
+                                        class="form-control" type="text" autocomplete="off" size="20"></textarea>
+                                
                                     <br>
-                                    <button kendoButton [icon]="'comment'" type="submit"></button>
+                                    <button mat-raised-button id="btnSendResponse" type="submit">Enviar</button>
                                     <span class="text-danger"
                                         *ngIf="repliesPublicConsultationForm.hasError('required', 'repliesForm') && formDir.submitted">
                                         Debe escribir una respuesta.
@@ -141,7 +144,7 @@
                     </div>
 
                     <div class="col-md-4">
-                        <h4>Enviar nueva consulta</h4>
+                        <h4 id="subtitle">Enviar nueva consulta</h4>
                         <form [formGroup]="publicConsultationForm" (ngSubmit)="addPublicConsultation()"
                             #formDir="ngForm">
                             <label class="control-label">Consulta:</label>
@@ -155,7 +158,7 @@
                             </kendo-dropdownlist>
                             <br>
                             <br>
-                            <button kendoButton type="submit">Enviar</button>
+                            <button class="pull-right" mat-raised-button id="btnSendConsultation" type="submit">Enviar</button>
                             <span class="text-danger"
                                 *ngIf="publicConsultationForm.hasError('required', 'addPublicConsultationForm') && formDir.submitted">
                                 Debe escribir una consulta.
@@ -171,5 +174,6 @@
 
             <div *ngIf="selected === 'Citas de atención'">
             </div>
-        </kendo-drawer-content>
+        <!-- </kendo-drawer-content> -->
+    </div>
 </kendo-drawer-container>
