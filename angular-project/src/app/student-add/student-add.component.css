@@ -4,6 +4,7 @@
   font-size: 16px;
   margin-top: 5px;
   margin-left: 2px;
+  margin-right: 5px;
   }
   
   #btnAddStudent:not([disabled]):hover, #btnHome:not([disabled]):hover  {
@@ -15,32 +16,6 @@
     color : rgb(187, 187, 187);
     background-color: rgba(230, 230, 229, 0.96);
   }
-
-  /* #btnHome {
-    color : rgb(0, 0, 0);
-    background-color: rgba(167, 229, 245, 0.96);
-   
-    font-size: 16px;
-    margin-left: 5px;
-  }
-  
-  #btnHome:not([disabled]):hover {
-    background-color: rgba(74, 149, 247, 0.96);
-  
-  }
-  
-  #btnHome[disabled] {
-    color : rgb(187, 187, 187);
-    background-color: rgba(230, 230, 229, 0.96);
-  }  */
-/* 
-  #formStudent{
-    text-align: center;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
-  } */
 
   .custom-toolbar {
     width: 100%;

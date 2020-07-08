@@ -1,0 +1,34 @@
+.custom-toolbar {
+    width: 100%;
+    background-color:#a9cce3;
+    line-height: 50px;
+    border-bottom: inset;
+    padding: 3px 8px;
+    color: #000000;
+}
+
+#title{
+    color: rgba(111, 147, 194, 0.96);
+    margin-bottom: 15px;
+  }
+
+
+  #btnUpdateProfessor, #btnCancel {
+    color : rgb(0, 0, 0);
+    background-color:#a9cce3;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-left: 2px;
+    margin-right: 5px;
+    }
+    
+    #btnUpdateProfessor:not([disabled]):hover, #btnCancel:not([disabled]):hover  {
+      background-color: rgba(31, 60, 100, 0.96);
+      color: white;
+    }
+    
+    #btnUpdateProfessor[disabled], #btnCancel[disabled] {
+      color : rgb(187, 187, 187);
+      background-color: rgba(230, 230, 229, 0.96);
+    }
+  
