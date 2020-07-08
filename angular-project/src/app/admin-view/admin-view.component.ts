@@ -196,5 +196,17 @@ export class AdminViewComponent implements OnInit {
     this.router.navigate(['/course-update/', id]);
   }
 
+  addProfessor(){
+    this.router.navigate(['/professor-add/']);
+  }
+
+  addCourse(){
+    this.router.navigate(['/course-add/']);
+  }
+
+  addNews(){
+    this.router.navigate(['/news-add/']);
+  }
+
   
 }

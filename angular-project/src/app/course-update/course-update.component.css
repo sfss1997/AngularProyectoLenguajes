@@ -1,8 +1,9 @@
 #btnUpdateCourse {
     color : rgb(0, 0, 0);
-    background-color: rgba(167, 229, 245, 0.96);
+    background-color:#a9cce3;
     /*border-radius: 10px 0 0 10px; */
     font-size: 16px;
+    margin-top: 5px;
   }
   
   #btnUpdateCourse:not([disabled]):hover {
@@ -17,10 +18,11 @@
 
   #btnHome {
     color : rgb(0, 0, 0);
-    background-color: rgba(167, 229, 245, 0.96);
+    background-color:#a9cce3;
     /*border-radius: 10px 0 0 10px; */
     font-size: 16px;
     margin-left: 5px;
+    margin-top: 5px;
   }
   
   #btnHome:not([disabled]):hover {
@@ -46,7 +48,7 @@
   }
 
   .custom-toolbar {
-    width: 200%;
+    width: 100%;
     background-color:#a9cce3;
     line-height: 50px;
     border-bottom: inset;

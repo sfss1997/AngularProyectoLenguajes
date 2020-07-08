@@ -48,20 +48,12 @@
 
 
   .custom-toolbar {
-    width: 200%;
+    width: 100%;
     background-color:#a9cce3;
     line-height: 50px;
     border-bottom: inset;
-    /* border-bottom-width: 1px; */
+    
     padding: 3px 8px;
     color: #000000;
 }
-/* 
-.container{
-  position: fixed;
-  top: 50%;
-  left: 50%; 
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%); 
-  width:100%;
- } */
+

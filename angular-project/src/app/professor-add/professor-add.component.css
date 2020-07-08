@@ -1,0 +1,54 @@
+.custom-toolbar {
+    width: 100%;
+    background-color:#a9cce3;
+    line-height: 50px;
+    border-bottom: inset;
+    /* border-bottom-width: 1px; */
+    padding: 3px 8px;
+    color: #000000;
+}
+
+#title{
+    color: rgba(111, 147, 194, 0.96);
+  }
+
+
+  #btnAddProfessor {
+    color : rgb(0, 0, 0);
+    background-color:#a9cce3;
+    /*border-radius: 10px 0 0 10px; */
+    font-size: 16px;
+    margin-top: 4px;
+  }
+  
+  #btnAddProfessor:not([disabled]):hover {
+    background-color: rgba(31, 60, 100, 0.96);
+    color: white;
+   /* color: rgb(0, 0, 0); */
+  }
+  
+  #btnAddProfessor[disabled] {
+    color : rgb(187, 187, 187);
+    background-color: rgba(230, 230, 229, 0.96);
+  }
+
+
+  #btnCancel {
+    color : rgb(0, 0, 0);
+    background-color:#a9cce3;
+    /*border-radius: 10px 0 0 10px; */
+    font-size: 16px;
+    margin-top: 4px;
+    margin-left: 5px;
+  }
+  
+  #btnCancel:not([disabled]):hover {
+    background-color: rgba(31, 60, 100, 0.96);
+    color: white;
+   /* color: rgb(0, 0, 0); */
+  }
+  
+  #btnCancel[disabled] {
+    color : rgb(187, 187, 187);
+    background-color: rgba(230, 230, 229, 0.96);
+  }

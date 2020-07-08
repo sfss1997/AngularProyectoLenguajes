@@ -1,7 +1,9 @@
 <div class="custom-toolbar">
   <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
-  <span class="mail-box">Registrar curso</span>
+  <span class="mail-box ">Universidad de Costa Rica</span>
 </div>
+
+
 <div class="container">
     <div class="col-md-6">
       <h2 id="title"> Registrar curso </h2>
@@ -30,10 +32,10 @@
 
       <div class="form-group">
         <label class=" control-label col-md-12">Estado</label>
-        <div class="col-md-4">
+       
           <kendo-dropdownlist [data]="is_active" [textField]="'text'" [valueField]="'value'" [value]="selectedState"
             (valueChange)="is_activeChange($event)"></kendo-dropdownlist>
-        </div>
+  
       </div>
 
       <div class="form-group">
@@ -51,16 +53,15 @@
 
       <div class="form-group">
         <label class=" control-label col-md-12">Ciclo</label>
-        <div class="col-md-4">
           <kendo-dropdownlist [value]="selectedCycles" [data]="cycles" [valueField]="'value'" [textField]="'text'"
             (valueChange)="cycleChange($event)"></kendo-dropdownlist>
-        </div>
+        
       </div>
       <div class="form-group">
         <div class="col-md-12">
           <br>
-          <button mat-button id="btnAddCourse" type="submit">Agregar</button>
-          <button mat-raised-button id="btnHome" routerLink="/admin-view/1">Cancel</button>
+          <button mat-raised-button id="btnAddCourse" type="submit">Agregar</button>
+          <button mat-raised-button id="btnHome" routerLink="/home">Cancel</button>
         </div>
       </div>
     </form>

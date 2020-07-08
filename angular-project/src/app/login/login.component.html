@@ -9,16 +9,16 @@
 
 <form>
   <div class="form-group" id="formLogin">
-    <label class=" control-label col-md-12">Nombre de usuario</label>
-    <div class="col-md-4">
-      <input [(ngModel)]="user.username" name="username" class="form-control" type="text" autocomplete="off">
-    </div>
+    <div class="form-group">
+      <label class=" control-label col-md-12">Nombre de usuario</label>
+      <input [(ngModel)]="user.username" name="username" class="form-control" type="text" autocomplete="off" size="10">
 
-    <label class=" control-label col-md-12">Contraseña</label>
-    <div class="col-md-4">
-      <input [(ngModel)]="user.password" name="password" class="form-control" type="password" autocomplete="off">
     </div>
+    <div class="form-group">
+      <label class=" control-label col-md-12">Contraseña</label>
 
+      <input [(ngModel)]="user.password" name="password" class="form-control" type="password" autocomplete="off" size="10">
+    </div>
     <div class="col-md-12">
       <br>
       <button class="btn btn-default" id="btnInicioSesion" (click)="login()">Iniciar sesión</button>

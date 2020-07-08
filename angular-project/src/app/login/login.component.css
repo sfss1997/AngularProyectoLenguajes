@@ -1,5 +1,5 @@
 .custom-toolbar {
-    width: 200%;
+    width: 100%;
     background-color:#a9cce3;
     line-height: 50px;
     border-bottom: inset;
@@ -13,7 +13,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 200px;
-    width: 40%;
+    width: 17%;
   }
 
   #btnInicioSesion {

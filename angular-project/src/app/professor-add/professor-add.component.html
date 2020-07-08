@@ -1,82 +1,105 @@
+<div class="custom-toolbar">
+    <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
+    <span class="mail-box">Registrar curso</span>
+</div>
 <div class="container">
+
+    <h2 id="title"> Registrar Professor </h2>
+
+    <!-- <div class="row col-md-12"> -->
+        <div class="col-md-6">
+            <form>
+                <div class="form-group">
+                    <label class=" control-label col-md-12">Nombre</label>
+                    <input class="form-control" type="text" autocomplete="off" [(ngModel)]="profesorData.name"
+                        name="name">
+                </div>
+
+                <div class="form-group">
+                    <label class=" control-label col-md-12">Apellidos</label>
+                    <input class="form-control" type="text" autocomplete="off" [(ngModel)]="profesorData.lastName"
+                        name="lastName">
+                </div>
+
+
+                <div class="form-group">
+                    <label class=" control-label col-md-12">Correo eléctronico</label>
+                    <input class="form-control" type="text" autocomplete="off" [(ngModel)]="profesorData.mail"
+                        name="mail">
+                </div>
+
+                <div class="form-group">
+                    <label class=" control-label col-md-12">Grado académico</label>
+                    <kendo-dropdownlist [data]="academicDegrees" [textField]="'name'" [valueField]="'id'"
+                        (valueChange)="degreeChange($event)" [value]="selectedAcademicDegree"
+                        [(ngModel)]="profesorData.academicDegree" name="academicDegree"></kendo-dropdownlist>
+                </div>
+
+                <div class="form-group">
+                    <label class=" control-label col-md-12">Administrador</label>
+                    <kendo-dropdownlist [data]="is_admin" [textField]="'name'" [valueField]="'id'"
+                        (valueChange)="administratorChange($event)" [value]="selectedAdministrator"
+                        [(ngModel)]="profesorData.isAdministrator" name="isAdministrator"></kendo-dropdownlist>
+                </div>
+
+
+                <div class="form-group">
+                    <label class=" control-label col-md-12">Estado</label>
+                    <kendo-dropdownlist [data]="status" [textField]="'name'" [valueField]="'id'"
+                        (valueChange)="statusChange($event)" [value]="selectedStatus" [(ngModel)]="profesorData.status"
+                        name="status"></kendo-dropdownlist>
+                </div>
+            </form>
+        </div>
+    <!-- </div> -->
     <div class="col-md-6">
-        <h2> Registrar Professor </h2>
-    </div>
-    <form>
+        <form>
 
-        <div class="form-group">
-            <label class=" control-label col-md-12">Nombre</label>
-            <input class="form-control" type="text" autocomplete="off" [(ngModel)]="profesorData.name" name="name">
-        </div>
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Apellidos</label>
-            <input class="form-control" type="text" autocomplete="off" [(ngModel)]="profesorData.lastName" name="lastName">
-        </div>
-
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Correo eléctronico</label>
-            <input class="form-control" type="text" autocomplete="off" [(ngModel)]="profesorData.mail" name="mail">
-        </div>
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Grado académico</label>
-            <kendo-dropdownlist [data]="academicDegrees" [textField]="'name'" [valueField]="'id'"
-                (valueChange)="degreeChange($event)" [value]="selectedAcademicDegree" [(ngModel)]="profesorData.academicDegree" name="academicDegree"></kendo-dropdownlist>
-        </div>
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Administrador</label>
-            <kendo-dropdownlist [data]="is_admin" [textField]="'name'" [valueField]="'id'"
-                (valueChange)="administratorChange($event)" [value]="selectedAdministrator" [(ngModel)]="profesorData.isAdministrator" name="isAdministrator"></kendo-dropdownlist>
-        </div>
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Estado</label>
-            <kendo-dropdownlist [data]="status" [textField]="'name'" [valueField]="'id'"
-                (valueChange)="statusChange($event)" [value]="selectedStatus" [(ngModel)]="profesorData.status" name="status"></kendo-dropdownlist>
-        </div>
-
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Nombre de usuario</label>
-            <input class="form-control" type="text" autocomplete="off" [(ngModel)]="profesorData.username" name="username">
-        </div>
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Contraseña</label>
-            <input class="form-control" type="password" autocomplete="off" [(ngModel)]="profesorData.password" name="password">
-        </div>
-
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Provincia</label>
-            <kendo-dropdownlist [data]="provinces" [textField]="'name'" [valueField]="'id'"
-                (valueChange)="provinceChange($event)" [defaultItem]="defaultItemProvinces" [value]="selectedProvince" [(ngModel)]="profesorData.provinceId" name="provinceId">
-            </kendo-dropdownlist>
-        </div>
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Cantón</label>
-            <kendo-dropdownlist [data]="cantons" [disabled]="isDisabledCantons" [valueField]="'id'"
-                (valueChange)="cantonsChange($event)" [textField]="'name'" [valueField]="'id'" [(ngModel)]="profesorData.cantonId" name="cantonId"
-                [defaultItem]="defaultItemCantons" [value]="selectedCanton"></kendo-dropdownlist>
-        </div>
-
-        <div class="form-group">
-            <label class=" control-label col-md-12">Distrito</label>
-            <kendo-dropdownlist [data]="districts" [disabled]="isDisabledDistricts"
-                (valueChange)="districtChange($event)" [textField]="'name'" [valueField]="'id'" [(ngModel)]="profesorData.districtId" name="districtId"
-                [defaultItem]="defaultItemDistrict" [value]="selectedDistrict"></kendo-dropdownlist>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-12">
-                <br>
-                <button mat-button id="btnAddProfessor" (click)="addProfessor()">Guardar</button>
-                <button mat-raised-button id="btnCancel" routerLink="/admin-view/1">Cancelar</button>
+            <div class="form-group">
+                <label class=" control-label col-md-12">Nombre de usuario</label>
+                <input class="form-control" type="text" autocomplete="off" [(ngModel)]="profesorData.username"
+                    name="username">
             </div>
-        </div>
-    </form>
+
+            <div class="form-group">
+                <label class=" control-label col-md-12">Contraseña</label>
+                <input class="form-control" type="password" autocomplete="off" [(ngModel)]="profesorData.password"
+                    name="password">
+            </div>
+
+
+            <div class="form-group">
+                <label class=" control-label col-md-12">Provincia</label>
+                <kendo-dropdownlist [data]="provinces" [textField]="'name'" [valueField]="'id'"
+                    (valueChange)="provinceChange($event)" [defaultItem]="defaultItemProvinces"
+                    [value]="selectedProvince" [(ngModel)]="profesorData.provinceId" name="provinceId">
+                </kendo-dropdownlist>
+            </div>
+
+            <div class="form-group">
+                <label class=" control-label col-md-12">Cantón</label>
+                <kendo-dropdownlist [data]="cantons" [disabled]="isDisabledCantons" [valueField]="'id'"
+                    (valueChange)="cantonsChange($event)" [textField]="'name'" [valueField]="'id'"
+                    [(ngModel)]="profesorData.cantonId" name="cantonId" [defaultItem]="defaultItemCantons"
+                    [value]="selectedCanton"></kendo-dropdownlist>
+            </div>
+
+            <div class="form-group">
+                <label class=" control-label col-md-12">Distrito</label>
+                <kendo-dropdownlist [data]="districts" [disabled]="isDisabledDistricts"
+                    (valueChange)="districtChange($event)" [textField]="'name'" [valueField]="'id'"
+                    [(ngModel)]="profesorData.districtId" name="districtId" [defaultItem]="defaultItemDistrict"
+                    [value]="selectedDistrict"></kendo-dropdownlist>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <br>
+                    <button mat-button id="btnAddProfessor" (click)="addProfessor()">Guardar</button>
+                    <button mat-raised-button id="btnCancel" routerLink="/admin-view/1">Cancelar</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
 </div>

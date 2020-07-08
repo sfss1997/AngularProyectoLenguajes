@@ -1,5 +1,5 @@
 .custom-toolbar {
-    width: 200%;
+    width: 100%;
     background-color:#a9cce3;
     line-height: 50px;
     border-bottom: inset;
@@ -9,44 +9,46 @@
 }
 
 
-#btnUser {
+#btnUser, #btnLogin {
     color : rgb(0, 0, 0);
     background-color: #a9cce3;
-    border-radius: 10px 0 0 10px;
+    /* border-radius: 10px 0 0 10px; */
     height: 35px;
     width: 100px;
     font-size: 12px;
-    border: 2px solid rgb(110, 126, 170) !important;
+    /* float: right; */
+    margin: 2px 0px 0px 5px
+
   }
   
-  #btnUser:not([disabled]):hover {
-    background-color:rgb(110, 126, 170);
-    color: cornsilk;
+  #btnUser:not([disabled]):hover, #btnLogin:not([disabled]):hover {
+    background-color: rgba(31, 60, 100, 0.96);
+    color: white;
    /* color: rgb(0, 0, 0); */
   }
   
-  #btnUser[disabled] {
+  #btnUser[disabled], #btnLogin[disabled] {
     color : rgb(187, 187, 187);
     background-color: rgba(230, 230, 229, 0.96);
   }
 
-  #btnLogin {
+  /* #btnLogin {
     color : rgb(0, 0, 0);
     background-color: #a9cce3;
-    border-radius: 10px 0 0 10px;
-    height: 35px;
+    /* border-radius: 20 px 0 0 0px; */
+    /* height: 35px;
     width: 100px;
     font-size: 12px;
-    border: 2px solid rgb(110, 126, 170) !important;
-    margin-left: 5px;
+    float: right;
+    margin-top: 2px;
   }
   
   #btnLogin:not([disabled]):hover {
-    background-color:rgb(110, 126, 170);
-    color: cornsilk;
+    background-color: rgba(31, 60, 100, 0.96);
+    color: white;
   }
   
   #btnLogin[disabled] {
     color : rgb(187, 187, 187);
     background-color: rgba(230, 230, 229, 0.96);
-  } 
+  }  */
