@@ -1,95 +1,87 @@
 <div class="custom-toolbar">
   <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
-  <span class="mail-box">Nuevo estudiante</span>
+  <span class="mail-box">Informática Empresarial</span>
 </div>
 
 <div class="container">
-<div class="col-md-6">
-  <!-- <h2> Registrar estudiante </h2> -->
-</div>
-<form>
-  <div class=class id="formStudent">
-    <div class="form-group">
-      <label class=" control-label col-md-12">Carné</label>
-        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.studentCard" name="studentCard">
+  <h2 id="title"> Nuevo estudiante </h2>
+  <div class="col-md-6">
+    <form>
+
+      <!-- <div class=class id="formStudent"> -->
+      <div class="form-group">
+        <label class=" control-label col-md-12">Carné</label>
+        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.studentCard"
+          name="studentCard">
       </div>
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Nombre</label>
-        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.studentName" name="studentName">
-    </div>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Nombre</label>
+        <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.studentName"
+          name="studentName">
+      </div>
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Apellidos</label>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Apellidos</label>
         <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.lastName" name="lastName">
-    </div>
+      </div>
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Fecha de Nacimiento</label>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Fecha de Nacimiento</label>
         <kendo-datepicker [(value)]="value" [format]="'yyyy-MM-dd'"></kendo-datepicker>
-    </div>
+      </div>
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Correo eléctronico</label>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Correo eléctronico</label>
         <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.mail" name="mail">
-    </div>
+      </div>
+    </form>
+  </div>
 
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Nombre de usuario</label>
+
+
+  <div class="col-md-6">
+    <form>
+
+      <div class="form-group">
+        <label class=" control-label col-md-12">Nombre de usuario</label>
         <input class="form-control" type="text" autocomplete="off" [(ngModel)]="studentData.username" name="username">
-    </div>
+      </div>
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Contraseña</label>
-        <input class="form-control" type="password" autocomplete="off" [(ngModel)]="studentData.password" name="password">
-    </div>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Contraseña</label>
+        <input class="form-control" type="password" autocomplete="off" [(ngModel)]="studentData.password"
+          name="password">
+      </div>
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Provincia</label>
-        <kendo-dropdownlist 
-        [data]="provinces" 
-        [textField]="'name'" 
-        [valueField]="'id'"
-        (valueChange)="provinceChange($event)"
-        [defaultItem]="defaultItemProvinces"
-        [value]="selectedProvince"
-        ></kendo-dropdownlist>
-    </div>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Provincia</label>
+        <kendo-dropdownlist [data]="provinces" [textField]="'name'" [valueField]="'id'"
+          (valueChange)="provinceChange($event)" [defaultItem]="defaultItemProvinces" [value]="selectedProvince">
+        </kendo-dropdownlist>
+      </div>
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Cantón</label>
-        <kendo-dropdownlist 
-        [data]="cantons" 
-        [disabled]="isDisabledCantons"
-        [valueField]="'id'"
-        (valueChange)="cantonsChange($event)"
-        [textField]="'name'"
-        [valueField]="'id'"
-        [defaultItem]="defaultItemCantons"
-        [value]="selectedCanton"
-        ></kendo-dropdownlist>
-    </div>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Cantón</label>
+        <kendo-dropdownlist [data]="cantons" [disabled]="isDisabledCantons" [valueField]="'id'"
+          (valueChange)="cantonsChange($event)" [textField]="'name'" [valueField]="'id'"
+          [defaultItem]="defaultItemCantons" [value]="selectedCanton"></kendo-dropdownlist>
+      </div>
 
-    <div class="form-group">
-      <label class=" control-label col-md-12">Distrito</label>
-        <kendo-dropdownlist 
-        [data]="districts" 
-        [disabled]="isDisabledDistricts"
-        (valueChange)="districtChange($event)"
-        [textField]="'name'"
-        [valueField]="'id'"
-        [defaultItem]="defaultItemDistrict"
-        [value]="selectedDistrict"
-        ></kendo-dropdownlist>
-    </div>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Distrito</label>
+        <kendo-dropdownlist [data]="districts" [disabled]="isDisabledDistricts" (valueChange)="districtChange($event)"
+          [textField]="'name'" [valueField]="'id'" [defaultItem]="defaultItemDistrict" [value]="selectedDistrict">
+        </kendo-dropdownlist>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <br>
+          <button mat-raised-button id="btnAddStudent" (click)="addStudent()">Registrarse</button>
+          <button mat-raised-button id="btnHome" routerLink="/home">Cancelar</button>
+        </div>
+      </div>
+    </form>
   </div>
-  <div class="form-group">
-    <div class="col-md-12">
-      <br>
-      <button mat-button id="btnAddStudent" (click)="addStudent()">Registrarse</button>
-      <button mat-raised-button id="btnHome" routerLink="/home">Cancelar</button>
-    </div>
-  </div>
-</form>
 </div>

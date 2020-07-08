@@ -1,39 +1,21 @@
-#btnUpdateCourse {
+#btnUpdateCourse, #btnHome {
     color : rgb(0, 0, 0);
     background-color:#a9cce3;
     /*border-radius: 10px 0 0 10px; */
     font-size: 16px;
     margin-top: 5px;
-  }
-  
-  #btnUpdateCourse:not([disabled]):hover {
-    background-color: rgba(31, 60, 100, 0.96);
-    color: white;
-  }
-  
-  #btnUpdateCourse[disabled] {
-    color : rgb(187, 187, 187);
-    background-color: rgba(230, 230, 229, 0.96);
-  }
-
-  #btnHome {
-    color : rgb(0, 0, 0);
-    background-color:#a9cce3;
-    /*border-radius: 10px 0 0 10px; */
-    font-size: 16px;
     margin-left: 5px;
-    margin-top: 5px;
   }
   
-  #btnHome:not([disabled]):hover {
+  #btnUpdateCourse:not([disabled]):hover, #btnHome:not([disabled]):hover {
     background-color: rgba(31, 60, 100, 0.96);
     color: white;
   }
   
-  #btnHome[disabled] {
+  #btnUpdateCourse[disabled], #btnHome[disabled] {
     color : rgb(187, 187, 187);
     background-color: rgba(230, 230, 229, 0.96);
-  } 
+  }
 
   #formCourseUpdate{
     text-align: center;

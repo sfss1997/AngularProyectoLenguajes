@@ -1,45 +1,46 @@
-#btnAddStudent {
-    color : rgb(0, 0, 0);
-    background-color: rgba(167, 229, 245, 0.96);
-    /*border-radius: 10px 0 0 10px; */
-    font-size: 16px;
+#btnAddStudent, #btnHome {
+  color : rgb(0, 0, 0);
+  background-color:#a9cce3;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 2px;
   }
   
-  #btnAddStudent:not([disabled]):hover {
-    background-color: rgba(74, 149, 247, 0.96);
-   /* color: rgb(0, 0, 0); */
+  #btnAddStudent:not([disabled]):hover, #btnHome:not([disabled]):hover  {
+    background-color: rgba(31, 60, 100, 0.96);
+    color: white;
   }
   
-  #btnAddStudent[disabled] {
+  #btnAddStudent[disabled], #btnHome[disabled] {
     color : rgb(187, 187, 187);
     background-color: rgba(230, 230, 229, 0.96);
   }
 
-  #btnHome {
+  /* #btnHome {
     color : rgb(0, 0, 0);
     background-color: rgba(167, 229, 245, 0.96);
-    /*border-radius: 10px 0 0 10px; */
+   
     font-size: 16px;
     margin-left: 5px;
   }
   
   #btnHome:not([disabled]):hover {
     background-color: rgba(74, 149, 247, 0.96);
-   /* color: rgb(0, 0, 0); */
+  
   }
   
   #btnHome[disabled] {
     color : rgb(187, 187, 187);
     background-color: rgba(230, 230, 229, 0.96);
-  } 
-
+  }  */
+/* 
   #formStudent{
     text-align: center;
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 40%;
-  }
+  } */
 
   .custom-toolbar {
     width: 100%;

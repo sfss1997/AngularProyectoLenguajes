@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { StudentServiceService } from '../student-service.service';
 import { ProfessorService } from '../professor.service';
 import { UserService } from '../user.service';
-
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-login',
@@ -13,19 +14,38 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LoginComponent implements OnInit {
 
+  loginForm: FormGroup;
   @Input() user = { username: '', password:''};
   students:any = [];
   professors:any = [];
   users:any = [];
 
-  constructor(private router: Router, private studentService: StudentServiceService, 
-    private professorService: ProfessorService, private userService: UserService, public snackBar: MatSnackBar) { }
+  constructor(private fb: FormBuilder,private router: Router, private studentService: StudentServiceService, 
+    private professorService: ProfessorService, private userService: UserService, public snackBar: MatSnackBar) { 
 
+
+      this.loginForm = this.fb.group({
+        id: 0,
+        username: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        credits:new FormControl('', [
+          Validators.required
+        ])
+      })
+
+
+
+    }
+
+
+    
   ngOnInit(): void {
     this.getUsers();
     this.getStudents();
     this.getProfessors();
   }
+
+
 
   login() {
     this.users.forEach(u => {

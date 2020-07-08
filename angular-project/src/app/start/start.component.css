@@ -1,5 +1,5 @@
 .custom-toolbar {
-    width: 100%;
+    width: auto;
     background-color:#a9cce3;
     line-height: 50px;
     border-bottom: inset;
@@ -17,7 +17,7 @@
     width: 100px;
     font-size: 12px;
     /* float: right; */
-    margin: 2px 0px 0px 5px
+    margin: 10px 0px 0px 5px
 
   }
   

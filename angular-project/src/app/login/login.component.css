@@ -16,39 +16,20 @@
     width: 17%;
   }
 
-  #btnInicioSesion {
+  #btnInicioSesion, #btnHome {
     color : rgb(0, 0, 0);
     background-color: rgba(167, 229, 245, 0.96);
-    /*border-radius: 10px 0 0 10px; */
-    font-size: 16px;
-    margin-top: 10px;
-  }
-  
-  #btnInicioSesion:not([disabled]):hover {
-    background-color: rgba(31, 60, 100, 0.96);
-    color: white;
-  }
-  
-  #btnInicioSesion[disabled] {
-    color : rgb(187, 187, 187);
-    background-color: rgba(230, 230, 229, 0.96);
-  }
-
-  #btnHome {
-    color : rgb(0, 0, 0);
-    background-color: rgba(167, 229, 245, 0.96);
-    /*border-radius: 10px 0 0 10px; */
     font-size: 16px;
     margin-left: 5px;
     margin-top: 10px;
   }
   
-  #btnHome:not([disabled]):hover {
+  #btnInicioSesion:not([disabled]):hover, #btnHome:not([disabled]):hover {
     background-color: rgba(31, 60, 100, 0.96);
     color: white;
   }
   
-  #btnHome[disabled] {
+  #btnInicioSesion[disabled], #btnHome[disabled]  {
     color : rgb(187, 187, 187);
     background-color: rgba(230, 230, 229, 0.96);
-  } 
+  }
