@@ -10,7 +10,7 @@
 
     <!-- <kendo-drawer-content class="pre-scrollable"> -->
     <div class="container">
-        <div *ngIf="selected === 'Perfil'">
+        <div *ngIf="selected === 'Perfil'" class="pre-scrollable">
             <h3 id="subtitle">Datos personales</h3>
             <h4>Nombre de usuario: {{ professor.username }}</h4>
             <h4>Correo electrónico: {{ professor.mail }}</h4>
@@ -54,7 +54,7 @@
             </form>
         </div>
 
-        <div *ngIf="selected === 'Noticias'">
+        <div class="pre-scrollable" *ngIf="selected === 'Noticias'">
             <kendo-scrollview #sv [data]="itemsNews" [width]="width" [height]="height" [animate]="true" [arrows]="true"
                 [pageable]="true" [endless]="true">
                 <ng-template let-item="item">

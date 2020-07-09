@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CourseService } from '../course.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-update',
@@ -15,7 +15,7 @@ export class CourseUpdateComponent implements OnInit {
   @Input() courseData: any = { id: 0, initials:'', name: '', is_active: 0, credits:0, cycle:''};
   public selectedState: { text: string, value: number};
   public selectedCycles: { text: string, value: number};
-  constructor(private fb: FormBuilder,private courseService: CourseService, private route: ActivatedRoute) {  
+  constructor(private fb: FormBuilder,private courseService: CourseService, private route: ActivatedRoute, private router: Router) {  
     
 
     this.courseForm = this.fb.group({
@@ -55,12 +55,13 @@ updateCourse() {
     "id": this.courseForm.value.id,
     "initials": this.courseForm.value.initials,
     "name": this.courseForm.value.name,
-    "is_active": this.selectedState.value,
+    "isActive": this.selectedState.value,
     "credits": this.courseForm.value.credits,
     "cycle": this.selectedCycles.value
   };
 
    this.courseService.update(this.course).subscribe((result) => { 
+    this.router.navigate(['/admin-view', 1]);
   });
 }
 cycleChange(value) {

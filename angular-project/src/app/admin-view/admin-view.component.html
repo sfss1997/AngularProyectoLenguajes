@@ -3,9 +3,11 @@
 <div class="custom-toolbar">
     <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
     <span class="mail-box">Bienvenido administrador/a</span>
+    <button class="pull-right" mat-raised-button id="btnAddNews" routerLink="/home">Salir</button>
     <button class="pull-right" mat-raised-button id="btnAddCourse" (click)="addCourse()">Registrar curso</button>
     <button class="pull-right" mat-raised-button id="btnAddProfessor" (click)="addProfessor()">Registrar profesor</button>
     <button class="pull-right" mat-raised-button id="btnAddNews" (click)="addNews()">Registrar noticia</button>
+    <button class="pull-right" mat-raised-button id="btnAddNews" (click)="addProfessorCourse()">Inscribir curso</button>
 
 </div>
 <h4>Estudiantes por aprobar</h4>

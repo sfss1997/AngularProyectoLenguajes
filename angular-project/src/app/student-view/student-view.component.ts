@@ -32,7 +32,6 @@ export class StudentViewComponent implements OnInit {
     { text: 'Borrar cuenta', icon: 'k-i-delete' }
   ];
 
-
   //PROFILE
   uploadSaveUrl = './assets/';
   uploadRemoveUrl = 'removeUrl';
@@ -65,7 +64,7 @@ export class StudentViewComponent implements OnInit {
   public isDisabledProfessor: boolean = true;
   public professorsList: any = [];
 
-  public listProfessor: any = [];
+  public listProfessor: Array<any> = [];
   public selectedProfessor: { name: string, id: number };
   public defaultItemProfessor: { name: string, id: number } = { name: "Seleccione", id: null };
 
@@ -270,7 +269,15 @@ export class StudentViewComponent implements OnInit {
   }
 
   enrollCourse() {
+    var studentCourse = {
+      "userId": this.route.snapshot.params['id'],
+      "courseId": this.selectedEnrollCourse.id
+    }
 
+    this.studentService.addStudentCourse(studentCourse).subscribe((result) => {
+      this.getEnrolledCourses();
+      this.getCourses();
+    });
   }
 
   enrollCourseChange(value) {
@@ -289,14 +296,7 @@ export class StudentViewComponent implements OnInit {
   getProfessor(id) {
     this.courseService.getProfessorByIdCourse(id).subscribe((data: {}) => {
       this.professorsList = data;
-      console.log(this.professorsList);
-      this.professorsList.forEach(element => {
-        
-        this.listProfessor = {
-          'id': element.id,
-          'name': element.name  + ' ' + element.last_name
-        };
-      });
+      this.listProfessor.push(this.professorsList);
     });
   }
 
@@ -306,11 +306,9 @@ export class StudentViewComponent implements OnInit {
     });
   }
 
-
   professorChange(value) {
     this.selectedSocialNetworks = value;
   }
-
 
   //PUBLIC CONSULTATION
   courseChange(value) {
@@ -370,8 +368,6 @@ export class StudentViewComponent implements OnInit {
       this.courses = data;
     });
   }
-
-
 
   showRepliesPublicConsultation(id) {
     this.showPublicConsultation = true;
@@ -451,7 +447,6 @@ export class StudentViewComponent implements OnInit {
           "courseId": s.course_id,
           "professorId": s.professor_id
         };
-
 
         this.courseService.getPrivateMessage(privateConsult).subscribe((result: {}) => {
           this.listPrivateConsultation = result;

@@ -1,13 +1,13 @@
 <div class="custom-toolbar">
-    <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
-    <span class="mail-box">Nueva noticia</span>
-  </div>
+  <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
+  <span class="mail-box">Informática Empresarial</span>
+</div>
+
+  <div class="container" id="formNews">
+    <h2 id="title">Añadir noticia</h2>
   
-  <div class="container">
-  <div class="col-md-6">
-  </div>
   <form>
-    <div class=class id="formNews">
+    <div>
       <div class="form-group">
         <label class=" control-label col-md-12">Autor</label>
           <input class="form-control" type="text" autocomplete="off" [(ngModel)]="newsData.authorName" name="authorName">
@@ -20,7 +20,7 @@
   
       <div class="form-group">
         <label class=" control-label col-md-12">Noticia</label>
-          <input class="form-control" type="text" autocomplete="off" [(ngModel)]="newsData.text" name="text">
+          <textarea class="form-control" type="text" autocomplete="off" [(ngModel)]="newsData.text" name="text"></textarea>
       </div>
   
       <div class="form-group">
@@ -31,8 +31,8 @@
     <div class="form-group">
       <div class="col-md-12">
         <br>
-        <button mat-button id="btnAddNews" (click)="addNews()">Agregar</button>
-        <button mat-raised-button id="btnCancel" (click)="cancel()">Cancel</button>
+        <button mat-raised-button id="btnAddNews" (click)="addNews()">Agregar</button>
+        <button mat-raised-button id="btnHome" (click)="cancel()">Cancelar</button>
       </div>
     </div>
   </form>

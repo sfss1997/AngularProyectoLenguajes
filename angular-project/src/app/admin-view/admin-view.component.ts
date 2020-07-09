@@ -76,8 +76,13 @@ export class AdminViewComponent implements OnInit {
   deleteNews(id) {
     this.rest.deleteNews(id).subscribe(res => {
       this.getNews();
+      this.getComments();
     });
 
+  }
+
+  addProfessorCourse() {
+    this.router.navigate(['/add-professor-course/']);
   }
 
   getComments() {
@@ -205,7 +210,7 @@ export class AdminViewComponent implements OnInit {
   }
 
   addNews(){
-    this.router.navigate(['/news-add/']);
+    this.router.navigate(['/news-add/',1]);
   }
 
   

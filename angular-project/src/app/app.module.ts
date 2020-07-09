@@ -45,13 +45,19 @@ import { StudentUpdateComponent } from './student-update/student-update.componen
 import { NewsAddComponent } from './news-add/news-add.component';
 import { NewsUpdateComponent } from './news-update/news-update.component';
 import { UploadModule } from '@progress/kendo-angular-upload';
-import { MatListModule } from '@angular/material/list'
+import { MatListModule } from '@angular/material/list';
+import { AddProfessorCourseComponent } from './add-professor-course/add-professor-course.component'
 
 const appRoutes: Routes = [
   {
     path: 'home',
     component: StartComponent,
     data: { title: 'Home' }
+  },
+  {
+    path: 'add-professor-course',
+    component: AddProfessorCourseComponent,
+    data: { title: 'Inscribir curso' }
   },
   {
     path: 'admin-view/:id',
@@ -143,7 +149,8 @@ const appRoutes: Routes = [
     ProfessorUpdateComponent,
     StudentUpdateComponent,
     NewsAddComponent,
-    NewsUpdateComponent
+    NewsUpdateComponent,
+    AddProfessorCourseComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

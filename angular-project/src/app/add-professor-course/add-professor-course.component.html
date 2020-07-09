@@ -1,0 +1,33 @@
+<div class="custom-toolbar">
+    <img id="ucrImage" src="./assets/ucr.png" style="border: 0; float: left; margin-right: 15px" />
+    <span class="mail-box ">Informática Empresarial</span>
+  </div>
+
+  <br>
+  <br>
+  <br>
+
+  <div class="container">
+<form id="formCourse">
+    <h2 id="title">Inscribir curso-profesor</h2>
+    <div class="form-group">
+        <div class="form-group">
+            <label class=" control-label col-md-12">Curso</label>
+            <kendo-dropdownlist [data]="courseList" [textField]="'name'" [valueField]="'id'"
+                (valueChange)="coursesChange($event)" [defaultItem]="defaultItemCourse"
+                [value]="selectedCourse">
+            </kendo-dropdownlist>
+        </div>
+      <div class="form-group">
+        <label class=" control-label col-md-12">Profesor</label>
+        <kendo-dropdownlist [data]="professorsList" [textField]="'name'" [valueField]="'id'"
+                (valueChange)="professorChange($event)" [defaultItem]="defaultItemProfessor"
+                [value]="selectedProfessor">
+            </kendo-dropdownlist>
+            <br>
+        <button class="btn btn-default" id="btnAddCourse" (click)="add()">Inscribir</button>
+        <button class="btn btn-default" id="btnHome" routerLink="/admin-view/1">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>

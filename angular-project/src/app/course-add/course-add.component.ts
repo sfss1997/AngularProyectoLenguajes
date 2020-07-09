@@ -42,7 +42,7 @@ export class CourseAddComponent implements OnInit {
 
 public is_active: Array<any> = [
   { text: 'Activo', value: 1 },
-  { text: 'Inactivo', value: 2 }
+  { text: 'Inactivo', value: 0 }
 ];
 
 addCourse() {
@@ -52,10 +52,11 @@ addCourse() {
   this.course = {
     "initials": this.courseForm.value.initials,
     "name": this.courseForm.value.name,
-    "is_active": this.selectedState.value,
+    "isActive": this.selectedState.value,
     "credits": this.courseForm.value.credits,
     "cycle": this.selectedCycles.value
   };
+  console.log(this.course);
 
    this.courseService.add(this.course).subscribe((result) => {
     this.openSnackBar('Curso añadido', ''); 
