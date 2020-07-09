@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input} from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { DrawerItem, DrawerSelectEvent } from '@progress/kendo-angular-layout';
 import { CourseService } from '../course.service';
 import { StudentServiceService } from '../student-service.service';
@@ -22,22 +22,23 @@ export class StudentViewComponent implements OnInit {
   //START
   public selected = 'Perfil';
   public items: Array<DrawerItem> = [
-    { text: 'Perfil', icon: 'k-i-user', selected: true  },
-    { text: 'Noticias', icon: 'k-i-form-element'},
+    { text: 'Perfil', icon: 'k-i-user', selected: true },
+    { text: 'Noticias', icon: 'k-i-form-element' },
     { text: 'Cursos', icon: 'k-i-change-manually' },
-    { text: 'Consulta pública', icon: 'k-i-unlock' }, 
+    { text: 'Consulta pública', icon: 'k-i-unlock' },
     { text: 'Consulta privada', icon: 'k-i-lock' },
     { text: 'Citas de atención', icon: 'k-i-calendar' }, { separator: true },
     { text: 'Cerrar sesión', icon: 'k-i-logout' },
     { text: 'Borrar cuenta', icon: 'k-i-delete' }
   ];
 
+
   //PROFILE
-  uploadSaveUrl = './assets/'; 
+  uploadSaveUrl = './assets/';
   uploadRemoveUrl = 'removeUrl';
-  public socialNetworksStudent:any = [];
-  public listSocialNetworks:any = [];
-  public selectedSocialNetworks: { name: string, id: number};
+  public socialNetworksStudent: any = [];
+  public listSocialNetworks: any = [];
+  public selectedSocialNetworks: { name: string, id: number };
   public defaultItemSocialNetworks: { name: string, id: number } = { name: "Seleccione", id: null };
   public addSocialNetworkForm: FormGroup;
 
@@ -46,81 +47,90 @@ export class StudentViewComponent implements OnInit {
   public paused = false;
   public width: string = "100%";
   public height: string = "350px";
-  public itemsNews:any = [];
-  public comments:any = [];
+  public itemsNews: any = [];
+  public comments: any = [];
   private interval;
-  @Input() commentData = { comment: ''};
-  public currentNews:any;
-  public currentNewsName:any;
+  @Input() commentData = { comment: '' };
+  public currentNews: any;
+  public currentNewsName: any;
 
   //COURSES
   courseColumns: string[] = ['initials', 'courseName', 'credits', 'professor_name'];
-  enrolledCourses:any = [];
-  @ViewChild(MatPaginator, {static: true}) paginatorCourses: MatPaginator;
+  enrolledCourses: any = [];
+  @ViewChild(MatPaginator, { static: true }) paginatorCourses: MatPaginator;
   dataSourceCourses = new MatTableDataSource<any>();
+  public listEnrollCourse: any = [];
+  public selectedEnrollCourse: { name: string, id: number };
+  public defaultItemEnrollCourse: { name: string, id: number } = { name: "Seleccione", id: null };
+  public isDisabledProfessor: boolean = true;
+  public professorsList: any = [];
+
+  public listProfessor: any = [];
+  public selectedProfessor: { name: string, id: number };
+  public defaultItemProfessor: { name: string, id: number } = { name: "Seleccione", id: null };
 
   //PUBLIC CONSULTATION
-  public studentCourses:any = [];
-  public selectedCourse: { courseName: string, course_id: number};
+  public studentCourses: any = [];
+  public selectedCourse: { courseName: string, course_id: number };
   public defaultItemCourse: { courseName: string, course_id: number } = { courseName: "Seleccione un curso", course_id: null };
-  publicConsultation:any = [];
-  repliesPublicConsultation:any = [];
+  publicConsultation: any = [];
+  repliesPublicConsultation: any = [];
   showPublicConsultation = false;
   repliesPublicConsultationForm: FormGroup;
   publicConsultationForm: FormGroup;
-  date:any;
-  course:any;
-  student:any;
-  studentPublicConsultation:any;
-  students:any = [];
-  professors:any = [];
-  courses:any = [];
-  professorCourse:any;
-  currentPublicConsultation:any = {};
-  publicConsult:any = { courseId: 0, professorId: 0};
+  date: any;
+  course: any;
+  student: any;
+  studentPublicConsultation: any;
+  students: any = [];
+  professors: any = [];
+  courses: any = [];
+  professorCourse: any;
+  currentPublicConsultation: any = {};
+  publicConsult: any = { courseId: 0, professorId: 0 };
 
   //PRIVATE CONSULTATION
   public showPrivateConsultation = false;
-  public listPrivateConsultation:any = [];
-  public privateConsultation:any = [];
-  public repliesPrivateConsultation:any = [];
-  public currentPrivateConsultation:any = {};
+  public listPrivateConsultation: any = [];
+  public privateConsultation: any = [];
+  public repliesPrivateConsultation: any = [];
+  public currentPrivateConsultation: any = {};
   public repliesPrivateConsultationForm: FormGroup;
   public privateConsultationForm: FormGroup;
 
   //APPOINTMENT
-  public listAppointment:any = [];
+  public listAppointment: any = [];
   public appointmentForm: FormGroup;
 
   constructor(private courseService: CourseService, private route: ActivatedRoute,
     private fb: FormBuilder, private studentService: StudentServiceService,
-    private professorService: ProfessorService, private router: Router, 
-    public snackBar: MatSnackBar, private restService: RestService) { 
+    private professorService: ProfessorService, private router: Router,
+    public snackBar: MatSnackBar, private restService: RestService) {
 
-      this.repliesPublicConsultationForm = this.fb.group({
-        repliesForm: ['', [Validators.required]]
-      })
+    this.repliesPublicConsultationForm = this.fb.group({
+      repliesForm: ['', [Validators.required]]
+    })
 
-      this.publicConsultationForm = this.fb.group({
-        addPublicConsultationForm: ['', [Validators.required]]
-      })
+    this.publicConsultationForm = this.fb.group({
+      addPublicConsultationForm: ['', [Validators.required]]
+    })
 
-      this.repliesPrivateConsultationForm = this.fb.group({
-        repliesPrivate: ['', [Validators.required]]
-      })
+    this.repliesPrivateConsultationForm = this.fb.group({
+      repliesPrivate: ['', [Validators.required]]
+    })
 
-      this.privateConsultationForm = this.fb.group({
-        addPrivateConsultationForm: ['', [Validators.required]]
-      })
+    this.privateConsultationForm = this.fb.group({
+      addPrivateConsultationForm: ['', [Validators.required]]
+    })
 
-      this.appointmentForm = this.fb.group({
-        appointment: ['', [Validators.required]]
-      })
+    this.appointmentForm = this.fb.group({
+      appointment: ['', [Validators.required]]
+    })
 
-      this.addSocialNetworkForm= this.fb.group({
-        urlSocialNetwork: ['', [Validators.required]]
-      })
-    }
+    this.addSocialNetworkForm = this.fb.group({
+      urlSocialNetwork: ['', [Validators.required]]
+    })
+  }
 
   //START
   ngOnInit(): void {
@@ -135,6 +145,7 @@ export class StudentViewComponent implements OnInit {
     this.getAppointment();
     this.getSocialNetworks();
     this.getSocialNetworksCatalog();
+    this.getListCourses();
   }
 
   public onSelect(ev: DrawerSelectEvent): void {
@@ -218,7 +229,7 @@ export class StudentViewComponent implements OnInit {
     this.itemsNews.forEach(n => {
       if (n.id == id) {
         this.currentNewsName = n.title;
-      } 
+      }
     });
 
     this.comments = [];
@@ -258,6 +269,49 @@ export class StudentViewComponent implements OnInit {
     });
   }
 
+  enrollCourse() {
+
+  }
+
+  enrollCourseChange(value) {
+    this.selectedEnrollCourse = value;
+    this.selectedProfessor = undefined;
+
+    if (value.id == this.defaultItemEnrollCourse.id) {
+      this.isDisabledProfessor = true;
+      this.listProfessor = [];
+    } else {
+      this.isDisabledProfessor = false;
+      this.getProfessor(value.id);
+    }
+  }
+
+  getProfessor(id) {
+    this.courseService.getProfessorByIdCourse(id).subscribe((data: {}) => {
+      this.professorsList = data;
+      console.log(this.professorsList);
+      this.professorsList.forEach(element => {
+        
+        this.listProfessor = {
+          'id': element.id,
+          'name': element.name  + ' ' + element.last_name
+        };
+      });
+    });
+  }
+
+  getListCourses() {
+    this.courseService.getCourses().subscribe((data: {}) => {
+      this.listEnrollCourse = data;
+    });
+  }
+
+
+  professorChange(value) {
+    this.selectedSocialNetworks = value;
+  }
+
+
   //PUBLIC CONSULTATION
   courseChange(value) {
     this.selectedCourse = value;
@@ -290,7 +344,7 @@ export class StudentViewComponent implements OnInit {
     });
   }
 
-  getStudentById(){
+  getStudentById() {
     this.studentService.getStudentById(this.route.snapshot.params['id']).subscribe((data: {}) => {
       this.student = data;
     });
@@ -316,6 +370,8 @@ export class StudentViewComponent implements OnInit {
       this.courses = data;
     });
   }
+
+
 
   showRepliesPublicConsultation(id) {
     this.showPublicConsultation = true;
@@ -372,7 +428,7 @@ export class StudentViewComponent implements OnInit {
       "publicConsultationId": id,
       "studentId": this.route.snapshot.params['id'],
       "motive": this.repliesPublicConsultationForm.value.repliesForm,
-      "dateTime": yyyy+'-'+mm+'-'+dd
+      "dateTime": yyyy + '-' + mm + '-' + dd
     };
 
     this.courseService.addRepliesPublicConsultation(replies).subscribe((result) => {
@@ -464,7 +520,7 @@ export class StudentViewComponent implements OnInit {
       "privateMessageId": id,
       "studentId": this.route.snapshot.params['id'],
       "motive": this.repliesPrivateConsultationForm.value.repliesPrivate,
-      "dateTime": yyyy+'-'+mm+'-'+dd
+      "dateTime": yyyy + '-' + mm + '-' + dd
     };
 
     this.courseService.addRepliesPrivateMessage(replies).subscribe((result) => {
