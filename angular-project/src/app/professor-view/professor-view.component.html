@@ -4,114 +4,195 @@
     <span class="mail-box">Bienvenido(a) {{ professor.name}} {{ professor.lastName}}</span>
 </div>
 <kendo-drawer-container>
-    <kendo-drawer #drawer class="drawer"
-    [items]="items" 
-    [mode]="'push'" 
-    [mini]="true"
-    [expanded]="true" 
-    (select)="onSelect($event)">
+    <kendo-drawer #drawer class="drawer" [items]="items" [mode]="'push'" [mini]="true" [expanded]="true"
+        (select)="onSelect($event)">
     </kendo-drawer>
 
-    <kendo-drawer-content class="pre-scrollable">
-
+    <!-- <kendo-drawer-content class="pre-scrollable"> -->
+    <div class="container">
         <div *ngIf="selected === 'Perfil'">
-            <h3>Datos personales</h3>
+            <h3 id="subtitle">Datos personales</h3>
             <h4>Nombre de usuario: {{ professor.username }}</h4>
             <h4>Correo electrónico: {{ professor.mail }}</h4>
             <h4>Grado Acádemico: {{ professor.AcademicDegree }}</h4>
             <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
-            <h3>Ubicación</h3>
+            <h3 id="subtitle">Ubicación</h3>
             <h4>Provincia: {{ professor.province }}</h4>
             <h4>Cantón: {{ professor.canton }}</h4>
             <h4>Distrito: {{ professor.district }}</h4>
+            <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
+            <h3 id="subtitle">Redes Sociales</h3>
+            <ul>
+                <li *ngFor="let s of socialNetworksProfessor">
+                    <a target="_blank" rel="noopener noreferrer" href="{{s.url}}">
+                        <span *ngIf="s.socialNetworksName_id === 1">Facebook</span>
+                        <span *ngIf="s.socialNetworksName_id === 2">Twitter</span>
+                        <span *ngIf="s.socialNetworksName_id === 3">LinkedIn</span>
+                        <span *ngIf="s.socialNetworksName_id === 4">GitHub</span>
+                        <span *ngIf="s.socialNetworksName_id === 5">Instagram</span>
+                        <span *ngIf="s.socialNetworksName_id === 6">Stack Overflow</span>
+                    </a>
+                </li>
+            </ul>
+            <h3 id="subtitle">Agregar Redes Sociales</h3>
+            <label class="control-label">Url:</label>
 
             <button mat-button (click)="editProfile()">Editar perfil</button>
         </div>
 
-        <div  *ngIf="selected === 'Noticias'">
-            <kendo-scrollview #sv [data]="itemsNews" [width]="width" [height]="height" [animate]="true"
-                    [arrows]="true" [pageable]="true" [endless]="true">
-                    <ng-template let-item="item">
-                        <h2 class="scroll-view-title">
-                            {{item.title}}
-                            <br>
-                            <br>
-                            <br>
-                            Noticia: {{item.text}}
-                            <br>
-                            Autor: {{item.authorName}}
-                            <br>
-                            Fecha publicación: {{item.dateTime}}
-                            <br>
-                            <button mat-button (click)="getComments(item.id)">Ver comentarios</button>
-                        </h2>
-                        <img src='./assets/firma-horizontal-dos-lineas-cmky2.png' draggable="false" />
-                    </ng-template>
-                </kendo-scrollview>
-                <mat-list>
-                    <div mat-subheader>Comentarios para noticia: {{currentNewsName}}</div>
-                    <mat-list-item *ngFor="let comment of comments">
-                      <mat-icon mat-list-icon>comment</mat-icon>
-                      <div mat-line>{{comment.authorName}}: {{comment.text}}</div>
-                      <div mat-line> {{comment.dateTime | date}} </div>
-                    </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <div mat-subheader></div>
-                    <mat-form-field style="width:400px">
-                        <textarea matInput type="text" placeholder="Nuevo comentario..." [(ngModel)]="commentData.comment"
-                            name="comment"></textarea>
-                        </mat-form-field>
-                        <button mat-button (click)="addComment()">
-                            <mat-icon mat-list-icon>send</mat-icon>
-                        </button>
-                  </mat-list>
+        <div *ngIf="selected === 'Noticias'">
+            <kendo-scrollview #sv [data]="itemsNews" [width]="width" [height]="height" [animate]="true" [arrows]="true"
+                [pageable]="true" [endless]="true">
+                <ng-template let-item="item">
+                    <h2 class="scroll-view-title">
+                        {{item.title}}
+                        <br>
+                        <br>
+                        <br>
+                        Noticia: {{item.text}}
+                        <br>
+                        Autor: {{item.authorName}}
+                        <br>
+                        Fecha publicación: {{item.dateTime}}
+                        <br>
+                        <button mat-button (click)="getComments(item.id)">Ver comentarios</button>
+                    </h2>
+                    <img src='./assets/firma-horizontal-dos-lineas-cmky2.png' draggable="false" />
+                </ng-template>
+            </kendo-scrollview>
+            <mat-list>
+                <div mat-subheader>Comentarios para noticia: {{currentNewsName}}</div>
+                <mat-list-item *ngFor="let comment of comments">
+                    <mat-icon mat-list-icon>comment</mat-icon>
+                    <div mat-line>{{comment.authorName}}: {{comment.text}}</div>
+                    <div mat-line> {{comment.dateTime | date}} </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <div mat-subheader></div>
+                <mat-form-field style="width:400px">
+                    <textarea matInput type="text" placeholder="Nuevo comentario..." [(ngModel)]="commentData.comment"
+                        name="comment"></textarea>
+                </mat-form-field>
+                <button mat-button (click)="addComment()">
+                    <mat-icon mat-list-icon>send</mat-icon>
+                </button>
+            </mat-list>
         </div>
 
         <div *ngIf="selected === 'Cursos'">
         </div>
 
-        <div *ngIf="selected === 'Consulta pública'">
-            <ul>
-                <li *ngFor="let p of publicConsultation">
-                    <h5> Consulta: {{ p.motive }}
-                        <button kendoButton [icon]="'preview'" (click)="showRepliesPublicConsultation(p.id)" (click)="getCourseById(p.course_id)"></button>
-                    </h5>
-                    Fecha: {{ p.dateTime }}
-                </li>
-            </ul>
+        <div id="publicConsultUl" *ngIf="selected === 'Consulta pública'">
+            <h3 id="subtitle">Consulta Pública</h3>
+            <div class="row">
+                <div class="col-md-6 pre-scrollable">
+                    <ul>
+                        <li *ngFor="let p of publicConsultation">
+                            <h5> Consulta: {{ p.motive }}
+                                <button class="pull-right" kendoButton [icon]="'preview'"
+                                    (click)="showRepliesPublicConsultation(p.id)"
+                                    (click)="getCourseById(p.course_id)"></button>
+                            </h5>
+                            Fecha: {{ p.dateTime | date }}
+                        </li>
+                    </ul>
 
-              <hr style="width:75%;" style="border-color:rgb(109, 166, 241);"/>
+                    <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
 
-            <div class="repliesPublicConsultation" *ngIf="show === true">
-                <h4>Respuestas</h4>
-                <h5>Curso: {{ course.name }} </h5>
-                <ul>
-                    <li *ngFor="let r of repliesPublicConsultation">
-                        <h5> {{ r.motive }} </h5>
-                            Fecha: {{ r.dateTime }}
-                    </li>
-                </ul>
-                <form [formGroup]="repliesPublicConsultationForm" (ngSubmit)="addRepliesPublicConsultation(currentPublicConsultation)" #formDir="ngForm">
-                    <div class="col-md-4">
-                        <h4>Añadir respuesta</h4>
-                        <input name="repliesPublicConsultation" formControlName="repliesForm" class="form-control" type="text"
-                            autocomplete="off">
-                        <br>
-                        <button kendoButton [icon]="'comment'" type="submit"></button>
-                        <span class="text-danger"
-                            *ngIf="repliesPublicConsultationForm.hasError('required', 'repliesForm') && formDir.submitted">
-                            Debe escribir una respuesta.
-                        </span>
+                    <div class="repliesPublicConsultation" *ngIf="showPublicConsultation === true">
+                        <h4>Respuestas</h4>
+                        <h5>Curso: {{ course.name }} </h5>
+                        <ul>
+                            <li *ngFor="let r of repliesPublicConsultation">
+                                <h5> {{ r.motive }} </h5>
+                                Fecha: {{ r.dateTime | date }}
+                            </li>
+                        </ul>
+                        <form [formGroup]="repliesPublicConsultationForm"
+                            (ngSubmit)="addRepliesPublicConsultation(currentPublicConsultation)" #formDir="ngForm">
+                            <div class="col-md-4">
+                                <h4>Añadir respuesta</h4>
+                                <textarea name="repliesPublicConsultation" formControlName="repliesForm"
+                                    class="form-control" type="text" autocomplete="off" size="20"></textarea>
+                                <br>
+                                <button mat-raised-button id="btnSendResponse" type="submit">Enviar</button>
+                                <span class="text-danger"
+                                    *ngIf="repliesPublicConsultationForm.hasError('required', 'repliesForm') && formDir.submitted">
+                                    Debe escribir una respuesta.
+                                </span>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
-            </div>
-
-        <div *ngIf="selected === 'Consulta privada'">
         </div>
 
-        <div *ngIf="selected === 'Citas de atención'">
+        <div id="publicConsultUl" *ngIf="selected === 'Consulta privada'">
+            <h3 id="subtitle">Consulta Privada</h3>
+                <div class="row">
+                    <div class="col-md-6 pre-scrollable">
+                        <ul>
+                            <li *ngFor="let p of privateConsultation">
+                                <h5> Consulta: {{ p.motive }}
+                                    <button class="pull-right" kendoButton [icon]="'preview'" (click)="showRepliesPrivateConsultation(p.id)"
+                                        (click)="getCourseById(p.course_id)"></button>
+                                </h5>
+                                Fecha: {{ p.dateTime | date }}
+                            </li>
+                        </ul>
+
+                        <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
+
+                        <div class="repliesPublicConsultation" *ngIf="showPrivateConsultation === true">
+                            <h4>Respuestas</h4>
+                            <h5>Curso: {{ course.name }}</h5>
+                            <ul>
+                                <li *ngFor="let r of repliesPrivateConsultation">
+                                    <h5> {{ r.motive }} </h5>
+                                    Fecha: {{ r.dateTime | date }}
+                                </li>
+                            </ul>
+                            <form [formGroup]="repliesPrivateConsultationForm"
+                                (ngSubmit)="addRepliesPrivateConsultation(currentPrivateConsultation)" #formDir="ngForm">
+                                <div class="col-md-4">
+                                    <h4>Añadir respuesta</h4>
+                                    
+                                    <textarea name="repliesPrivateConsultation" formControlName="repliesPrivate"
+                                        class="form-control" type="text" autocomplete="off" size="20"></textarea>
+                                
+                                    <br>
+                                    <button mat-raised-button id="btnSendResponse" type="submit">Enviar</button>
+                                    <span class="text-danger"
+                                        *ngIf="repliesPrivateConsultationForm.hasError('required', 'repliesPrivate') && formDir.submitted">
+                                        Debe escribir una respuesta.
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
         </div>
 
-    </kendo-drawer-content>
+        <div id="publicConsultUl" *ngIf="selected === 'Citas de atención'">
+            <h3 id="subtitle">Citas de atención</h3>
+                <div class="row">
+                    <div class="col-md-6 pre-scrollable">
+                        <ul>
+                            <li *ngFor="let a of listAppointment">
+                                <h5>Consulta: {{ a.motive }}</h5>
+                                <h5 *ngIf="a.accepted === 1">Estado: Aceptada</h5>
+                                <h5 *ngIf="a.accepted === 0">Estado: Rechazada</h5>
+                                <h5 *ngIf="a.accepted === 2">Estado: En espera</h5>
+                                Fecha: {{ a.dateTime | date }}
+                                <button mat-raised-button id="btnSendResponse" (click)="acceptAppointment(a.id)">Aceptar</button>
+                                <button mat-raised-button id="btnSendResponse" (click)="denyAppointment(a.id)">Rechazar</button>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+        </div>
+
+        <!-- </kendo-drawer-content> -->
+    </div>
 </kendo-drawer-container>

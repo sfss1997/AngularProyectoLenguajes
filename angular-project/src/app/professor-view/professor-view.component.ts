@@ -30,6 +30,8 @@ export class ProfessorViewComponent implements OnInit {
   ];
 
   //PROFILE
+  public socialNetworksProfessor:any = [];
+  public listSocialNetworks:any = [];
 
   //NEWS
   @ViewChild('sv') private scrollView;
@@ -47,9 +49,9 @@ export class ProfessorViewComponent implements OnInit {
 
   //PUBLIC CONSULTATION
   public professorCourses:any = [];
-  publicConsultation:any = [];
+  public publicConsultation:any = [];
   repliesPublicConsultation:any = [];
-  show = false;
+  showPublicConsultation = false;
   repliesPublicConsultationForm: FormGroup;
   date:any;
   course:any;
@@ -58,13 +60,30 @@ export class ProfessorViewComponent implements OnInit {
   currentPublicConsultation:any = {};
 
   replies: any = { publicConsultationId: 0, studentId: 0, professorId: 0, motive: '', dateTime: ''}
-  publicConsult:any = { courseId: 0, professorId: 0};
+  publicConsult:any= [];
+
+  //PRIVATE CONSULTATION
+  public showPrivateConsultation = false;
+  public listPrivateConsultation:any = [];
+  public privateConsultation:any = [];
+  public repliesPrivateConsultation:any = [];
+  public currentPrivateConsultation:any = {};
+  public repliesPrivateConsultationForm: FormGroup;
+  public privateConsultationForm: FormGroup;
+  public privateConsult:any= [];
+
+  //APPOINTMENT
+  public listAppointment:any = [];
 
   constructor(private courseService: CourseService, private route: ActivatedRoute,
     private fb: FormBuilder, private professorService: ProfessorService,
     private studentService: StudentServiceService, private router: Router, public snackBar: MatSnackBar, private restService: RestService) { 
       this.repliesPublicConsultationForm = this.fb.group({
         repliesForm: ['', [Validators.required]]
+      })
+
+      this.repliesPrivateConsultationForm = this.fb.group({
+        repliesPrivate: ['', [Validators.required]]
       })
     }
 
@@ -73,6 +92,10 @@ export class ProfessorViewComponent implements OnInit {
     this.getPublicConsultation();
     this.getProfessorById();
     this.getNews();
+    this.getPrivateConsultation();
+    this.getAppointment();
+    this.getSocialNetworks();
+    this.getSocialNetworksCatalog();
   }
 
   public onSelect(ev: DrawerSelectEvent): void {
@@ -111,6 +134,22 @@ export class ProfessorViewComponent implements OnInit {
   //PROFILE
   editProfile() {
     
+  }
+
+  getSocialNetworks() {
+    this.socialNetworksProfessor = [];
+    this.professorService.GetSocialNetworksById(this.route.snapshot.params['id']).subscribe((data: {}) => {
+      this.socialNetworksProfessor = data;
+    });
+
+  }
+
+  getSocialNetworksCatalog() {
+    this.listSocialNetworks = [];
+    this.professorService.getListSocialNetworksCatalog().subscribe((data: {}) => {
+      this.listSocialNetworks = data;
+    });
+
   }
 
   //NEWS
@@ -167,18 +206,17 @@ export class ProfessorViewComponent implements OnInit {
           "courseId": p.course_id,
           "professorId": p.professor_id
         };
+      });
+
         this.publicConsultation = [];
         this.courseService.getPublicConsultation(this.publicConsult).subscribe((result: {}) => {
           this.publicConsultation = result;
-
         });
       });
-
-    });
   }
 
   showRepliesPublicConsultation(id) {
-    this.show = true;
+    this.showPublicConsultation = true;
     this.repliesPublicConsultation = [];
     this.courseService.getRepliesPublicConsultation(id).subscribe((data: {}) => {
       this.repliesPublicConsultation = data;
@@ -224,6 +262,96 @@ export class ProfessorViewComponent implements OnInit {
     });
   }
 
+   //PRIVATE CONSULTATION
+   getPrivateConsultation() {
+    this.listPrivateConsultation = [];
+    this.privateConsultation = [];
+    var privateConsult = {};
+
+    this.professorCourses = [];
+    this.courseService.getProfessorCourses(this.route.snapshot.params['id']).subscribe((data: {}) => {
+      this.professorCourses = data;
+
+      this.professorCourses.forEach(p => {
+        privateConsult = {
+          "courseId": p.course_id,
+          "professorId": p.professor_id
+        };
+      });
+
+        this.privateConsultation = [];
+        this.courseService.getPrivateMessage(privateConsult).subscribe((result: {}) => {
+          this.privateConsultation = result;
+        });
+      });
+  }
+
+  showRepliesPrivateConsultation(id) {
+    this.showPrivateConsultation = true;
+    this.repliesPrivateConsultation = [];
+    this.courseService.getRepliesPrivateMessage(id).subscribe((data: {}) => {
+      this.repliesPrivateConsultation = data;
+    });
+    this.currentPrivateConsultation= id;
+  }
+
+  addRepliesPrivateConsultation(id) {
+    if (!this.repliesPrivateConsultationForm.valid) {
+      return;
+    }
+
+    this.date = new Date();
+    var dd = this.date.getDate();
+    var mm = this.date.getMonth() + 1;
+    var yyyy = this.date.getFullYear();
+
+    var replies = {}
+
+    replies = {
+      "privateMessageId": id,
+      "professorId": this.route.snapshot.params['id'],
+      "motive": this.repliesPrivateConsultationForm.value.repliesPrivate,
+      "dateTime": yyyy+'-'+mm+'-'+dd
+    };
+
+    this.courseService.addRepliesPrivateMessage(replies).subscribe((result) => {
+      this.showRepliesPrivateConsultation(id);
+    });
+
+  }
+
+  //APPOINTMENT
+  getAppointment() {
+    this.listAppointment = [];
+    var appointment = {};
+
+    this.professorCourses = [];
+    this.courseService.getProfessorCourses(this.route.snapshot.params['id']).subscribe((data: {}) => {
+      this.professorCourses = data;
+
+      this.professorCourses.forEach(p => {
+        appointment = {
+          "courseId": p.course_id,
+          "professorId": p.professor_id
+        };
+      });
+
+        this.listAppointment = [];
+        this.courseService.getAppointmentProfessor(appointment).subscribe((result: {}) => {
+          this.listAppointment = result;
+        });
+      });
+  }
+
+  acceptAppointment(id) {
+
+  }
+
+  denyAppointment(id) {
+
+  }
+  
   get repliesForm() { return this.repliesPublicConsultationForm.get('repliesForm'); }
+  get repliesPrivate() { return this.repliesPrivateConsultationForm.get('repliesPrivate'); }
 
 }

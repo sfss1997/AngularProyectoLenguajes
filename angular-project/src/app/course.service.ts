@@ -15,7 +15,10 @@ export class CourseService {
 
   private _url = 'http://localhost:8080/Course/';
 
-  params = new HttpParams();
+  paramsPublicConsultation = new HttpParams();
+  paramsPrivateConsultation = new HttpParams();
+  paramsAppointment = new HttpParams();
+  paramsAppointmentProfessor = new HttpParams();
 
   constructor(private http: HttpClient) { }
 
@@ -76,18 +79,17 @@ export class CourseService {
   }
 
   getPublicConsultation(publicConsultation): Observable<any> {
+    this.paramsPublicConsultation = this.paramsPublicConsultation.append('courseId', publicConsultation.courseId);
+    this.paramsPublicConsultation = this.paramsPublicConsultation.append('professorId', publicConsultation.professorId);
 
-    this.params = this.params.append('courseId', publicConsultation.courseId);
-    this.params = this.params.append('professorId', publicConsultation.professorId);
-
-    return this.http.get<any>(this._url + 'GetPublicConsultation', { params: this.params });
+    return this.http.get<any>(this._url + 'GetPublicConsultation', { params: this.paramsPublicConsultation });
   }
 
   getPrivateMessage(privateMessage): Observable<any> {
-    this.params = this.params.append('courseId', privateMessage.courseId);
-    this.params = this.params.append('professorId', privateMessage.professorId);
+    this.paramsPrivateConsultation = this.paramsPrivateConsultation.append('courseId', privateMessage.courseId);
+    this.paramsPrivateConsultation = this.paramsPrivateConsultation.append('professorId', privateMessage.professorId);
 
-    return this.http.get<any>(this._url + 'GetPrivateMessage', { params: this.params });
+    return this.http.get<any>(this._url + 'GetPrivateMessage', { params: this.paramsPrivateConsultation });
   }
 
   getRepliesPublicConsultation(id): Observable<any> {
@@ -99,11 +101,11 @@ export class CourseService {
   }
 
   getAppointment(appointment): Observable<any> {
-    this.params = this.params.append('studentId', appointment.studentId);
-    this.params = this.params.append('professorId', appointment.professorId);
-    this.params = this.params.append('courseId', appointment.courseId);
+    this.paramsAppointment = this.paramsAppointment.append('studentId', appointment.studentId);
+    this.paramsAppointment = this.paramsAppointment.append('professorId', appointment.professorId);
+    this.paramsAppointment = this.paramsAppointment.append('courseId', appointment.courseId);
 
-    return this.http.get<any>(this._url + 'GetAppointment', { params: this.params });
+    return this.http.get<any>(this._url + 'GetAppointment', { params: this.paramsAppointment });
   }
 
   getAppointmentById(id): Observable<any> {
@@ -111,7 +113,9 @@ export class CourseService {
   }
 
   getAppointmentProfessor(appointment): Observable<any> {
-    return this.http.get<any>(this._url + 'GetAppointmentProfessor' + JSON.stringify(appointment));
+    this.paramsAppointmentProfessor = this.paramsAppointmentProfessor.append('courseId', appointment.courseId);
+    this.paramsAppointmentProfessor = this.paramsAppointmentProfessor.append('professorId', appointment.professorId);
+    return this.http.get<any>(this._url + 'GetAppointmentProfessor', { params: this.paramsAppointmentProfessor });
   }
 
 }

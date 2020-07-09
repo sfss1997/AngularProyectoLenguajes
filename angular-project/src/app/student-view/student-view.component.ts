@@ -34,7 +34,9 @@ export class StudentViewComponent implements OnInit {
 
   //PROFILE
   uploadSaveUrl = './assets/'; 
-  uploadRemoveUrl = 'removeUrl'; 
+  uploadRemoveUrl = 'removeUrl';
+  public socialNetworksStudent:any = [];
+  public listSocialNetworks:any = [];
 
   //NEWS
   @ViewChild('sv') private scrollView;
@@ -60,7 +62,7 @@ export class StudentViewComponent implements OnInit {
   public defaultItemCourse: { courseName: string, course_id: number } = { courseName: "Seleccione un curso", course_id: null };
   publicConsultation:any = [];
   repliesPublicConsultation:any = [];
-  show = false;
+  showPublicConsultation = false;
   repliesPublicConsultationForm: FormGroup;
   publicConsultationForm: FormGroup;
   date:any;
@@ -74,16 +76,42 @@ export class StudentViewComponent implements OnInit {
   currentPublicConsultation:any = {};
   publicConsult:any = { courseId: 0, professorId: 0};
 
+  //PRIVATE CONSULTATION
+  public showPrivateConsultation = false;
+  public listPrivateConsultation:any = [];
+  public privateConsultation:any = [];
+  public repliesPrivateConsultation:any = [];
+  public currentPrivateConsultation:any = {};
+  public repliesPrivateConsultationForm: FormGroup;
+  public privateConsultationForm: FormGroup;
+
+  //APPOINTMENT
+  public listAppointment:any = [];
+  public appointmentForm: FormGroup;
+
   constructor(private courseService: CourseService, private route: ActivatedRoute,
     private fb: FormBuilder, private studentService: StudentServiceService,
     private professorService: ProfessorService, private router: Router, 
     public snackBar: MatSnackBar, private restService: RestService) { 
+
       this.repliesPublicConsultationForm = this.fb.group({
         repliesForm: ['', [Validators.required]]
       })
 
       this.publicConsultationForm = this.fb.group({
         addPublicConsultationForm: ['', [Validators.required]]
+      })
+
+      this.repliesPrivateConsultationForm = this.fb.group({
+        repliesPrivate: ['', [Validators.required]]
+      })
+
+      this.privateConsultationForm = this.fb.group({
+        addPrivateConsultationForm: ['', [Validators.required]]
+      })
+
+      this.appointmentForm = this.fb.group({
+        appointment: ['', [Validators.required]]
       })
     }
 
@@ -96,6 +124,10 @@ export class StudentViewComponent implements OnInit {
     this.getCourses();
     this.getEnrolledCourses();
     this.getNews();
+    this.getPrivateConsultation();
+    this.getAppointment();
+    this.getSocialNetworks();
+    this.getSocialNetworksCatalog();
   }
 
   public onSelect(ev: DrawerSelectEvent): void {
@@ -132,6 +164,22 @@ export class StudentViewComponent implements OnInit {
 
   //PROFILE
   editProfile() {
+
+  }
+
+  getSocialNetworks() {
+    this.socialNetworksStudent = [];
+    this.studentService.getSocialNetworksById(this.route.snapshot.params['id']).subscribe((data: {}) => {
+      this.socialNetworksStudent = data;
+    });
+
+  }
+
+  getSocialNetworksCatalog() {
+    this.listSocialNetworks = [];
+    this.studentService.getListSocialNetworksCatalog().subscribe((data: {}) => {
+      this.listSocialNetworks = data;
+    });
 
   }
 
@@ -247,7 +295,7 @@ export class StudentViewComponent implements OnInit {
   }
 
   showRepliesPublicConsultation(id) {
-    this.show = true;
+    this.showPublicConsultation = true;
     this.repliesPublicConsultation = [];
     this.courseService.getRepliesPublicConsultation(id).subscribe((data: {}) => {
       this.repliesPublicConsultation = data;
@@ -309,7 +357,161 @@ export class StudentViewComponent implements OnInit {
     });
   }
 
+  //PRIVATE CONSULTATION
+  getPrivateConsultation() {
+    this.listPrivateConsultation = [];
+    this.privateConsultation = [];
+    var privateConsult = {};
+
+    this.studentCourses= [];
+    this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((result: {}) => {
+      this.studentCourses = result;
+      
+      this.studentCourses.forEach(s => {
+        privateConsult = {
+          "courseId": s.course_id,
+          "professorId": s.professor_id
+        };
+      });
+
+      this.courseService.getPrivateMessage(privateConsult).subscribe((result: {}) => {
+        this.listPrivateConsultation = result;
+        this.listPrivateConsultation.forEach(p => {
+          if (p.student_id == this.route.snapshot.params['id']) {
+            this.privateConsultation = this.listPrivateConsultation;
+          }
+        });
+      });
+    });
+  }
+
+  showRepliesPrivateConsultation(id) {
+    this.showPrivateConsultation = true;
+    this.repliesPrivateConsultation = [];
+    this.courseService.getRepliesPrivateMessage(id).subscribe((data: {}) => {
+      this.repliesPrivateConsultation = data;
+    });
+    this.currentPrivateConsultation = id;
+
+  }
+
+  addPrivateConsultation() {
+    if (!this.privateConsultationForm.valid) {
+      return;
+    }
+
+    var privateConsultation = {}
+
+    var date = new Date();
+    var dd = date.getDate();
+    var mm = date.getMonth() + 1;
+    var yyyy = date.getFullYear();
+
+    this.courseService.getProfessorByIdCourse(this.selectedCourse.course_id).subscribe((data: {}) => {
+      this.professorCourse = data;
+
+      privateConsultation = {
+        "courseId": this.selectedCourse.course_id,
+        "studentId": this.route.snapshot.params['id'],
+        "professorId": this.professorCourse.id,
+        "motive": this.privateConsultationForm.value.addPrivateConsultationForm,
+        "dateTime": yyyy + '-' + mm + '-' + dd
+      };
+
+      this.courseService.addPrivateMessage(privateConsultation).subscribe((result) => {
+        this.getPrivateConsultation();
+      });
+    });
+  }
+
+  addRepliesPrivateConsultation(id) {
+    if (!this.repliesPrivateConsultationForm.valid) {
+      return;
+    }
+
+    this.date = new Date();
+    var dd = this.date.getDate();
+    var mm = this.date.getMonth() + 1;
+    var yyyy = this.date.getFullYear();
+
+    var replies = {}
+
+    replies = {
+      "privateMessageId": id,
+      "studentId": this.route.snapshot.params['id'],
+      "motive": this.repliesPrivateConsultationForm.value.repliesPrivate,
+      "dateTime": yyyy+'-'+mm+'-'+dd
+    };
+
+    this.courseService.addRepliesPrivateMessage(replies).subscribe((result) => {
+      this.showRepliesPrivateConsultation(id);
+    });
+  }
+
+  //APPOINTMENT
+  getAppointment() {
+    this.listAppointment = [];
+    var appointment = {};
+
+    this.studentCourses= [];
+    this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((result: {}) => {
+      this.studentCourses = result;
+      
+      this.studentCourses.forEach(s => {
+        appointment = {
+          "courseId": s.course_id,
+          "professorId": s.professor_id,
+          "studentId": this.route.snapshot.params['id']
+        };
+      });
+
+      this.courseService.getAppointment(appointment).subscribe((result: {}) => {
+        this.listAppointment = result;
+      });
+    });
+  }
+
+  addAppointment() {
+    if (!this.appointmentForm.valid) {
+      return;
+    }
+
+    this.date = new Date();
+    var dd = this.date.getDate();
+    var mm = this.date.getMonth() + 1;
+    var yyyy = this.date.getFullYear();
+
+    var appointment = {}
+
+    this.studentCourses = [];
+    this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((result: {}) => {
+      this.studentCourses = result;
+
+      this.studentCourses.forEach(s => {
+        if (s.course_id == this.selectedCourse.course_id) {
+          appointment = {
+            "courseId": this.selectedCourse.course_id,
+            "studentId": this.route.snapshot.params['id'],
+            "Accepted": 2,
+            "professorId": s.professor_id,
+            "motive": this.appointmentForm.value.appointment,
+            "dateTime": yyyy + '-' + mm + '-' + dd
+          };
+        }
+      });
+
+      this.courseService.addAppointment(appointment).subscribe((result) => {
+        this.openSnackBar('Solicitud de cita enviada', '');
+        this.getAppointment();
+      });
+    });
+
+  }
+
 
   get repliesForm() { return this.repliesPublicConsultationForm.get('repliesForm'); }
   get addPublicConsultationForm() { return this.publicConsultationForm.get('addPublicConsultationForm'); }
+  get repliesPrivate() { return this.repliesPrivateConsultationForm.get('repliesPrivate'); }
+  get addPrivateConsultationForm() { return this.privateConsultationForm.get('addPrivateConsultationForm'); }
+  get appointment() { return this.appointmentForm.get('appointment'); }
 }

@@ -41,11 +41,7 @@ kendo-drawer-container {
   }
 
 .repliesPublicConsultation {
-    margin-left: 200px;
-}
-
-.pre-scrollable {
-    overflow-x: hidden;
+    margin-left: 30px;
 }
 
 .scroll-view-title {
@@ -60,4 +56,32 @@ kendo-drawer-container {
     text-align: center;
     font-size: 24px;
     font-family: "Times New Roman", Times, serif;
+}
+
+#publicConsultUl{
+    margin-top: 35px;
+    
+}
+
+#btnSendResponse{
+    color : rgb(0, 0, 0);
+    background-color:#a9cce3;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-left: 2px;
+}
+    
+#btnSendResponse:not([disabled]):hover  {
+    background-color: rgba(31, 60, 100, 0.96);
+    color: white;
+}
+
+#btnSendResponse[disabled] {
+    color : rgb(187, 187, 187);
+    background-color: rgba(230, 230, 229, 0.96);
+}
+
+#subtitle{
+
+    color: rgba(111, 147, 194, 0.96);
 }
