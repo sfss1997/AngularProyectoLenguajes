@@ -58,7 +58,7 @@ export class StudentServiceService {
   }
 
   addSocialNetwork (socialNetwork): Observable<any> {
-    return this.http.post(this._url + 'addSocialNetwork', JSON.stringify(socialNetwork), httpOptions);
+    return this.http.post(this._url + 'AddSocialNetwork', JSON.stringify(socialNetwork), httpOptions);
   }
 
   approvalStudent (id): Observable<any> {

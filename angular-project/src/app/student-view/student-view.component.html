@@ -35,19 +35,26 @@
                         </a>
                     </li>
                 </ul>
+                <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
                 <h3 id="subtitle">Agregar Redes Sociales</h3>
-                <label class="control-label">Url:</label>
-                <input class="form-control" id="socialNetworkURL"> 
-                <!-- <kendo-dropdownlist [data]="provinces" [textField]="'name'" [valueField]="'id'"
-          (valueChange)="provinceChange($event)" [defaultItem]="defaultItemProvinces" [value]="selectedProvince">
-        </kendo-dropdownlist> -->
-        <button mat-button id="btnSocialNetwork">Ingresar</button>
-
-
-                <button mat-button (click)="editProfile()">Editar perfil</button>
-
-                <kendo-upload [saveUrl]="uploadSaveUrl" [removeUrl]="uploadRemoveUrl">
-                </kendo-upload>
+                <form [formGroup]="addSocialNetworkForm" (ngSubmit)="addSocialNetwork()" #formDir="ngForm">
+                    <label class="control-label">Url:</label>
+                    <input class="form-control" id="socialNetworkURL" placeholder="https://www.facebook.com/user"
+                        formControlName="urlSocialNetwork" name="urlSocialNetwork" autocomplete="off">
+                    <label class="control-label">Red social:</label>
+                    <kendo-dropdownlist [data]="listSocialNetworks" [textField]="'name'" [valueField]="'id'"
+                        (valueChange)="socialNetworksChange($event)" [defaultItem]="defaultItemSocialNetworks"
+                        [value]="selectedSocialNetworks">
+                    </kendo-dropdownlist>
+                    <br>
+                    <button mat-raised-button id="btnSendResponse" type="submit">Agregar</button>
+                    <span class="text-danger"
+                        *ngIf="addSocialNetworkForm.hasError('required', 'urlSocialNetwork') && formDir.submitted">
+                        Debe escribir una url.
+                    </span>
+                </form>
+                <!-- <kendo-upload [saveUrl]="uploadSaveUrl" [removeUrl]="uploadRemoveUrl">
+                </kendo-upload> -->
             </div>
 
             <div class="pre-scrollable" *ngIf="selected === 'Noticias'">
@@ -117,7 +124,7 @@
                         <tr mat-row *matRowDef="let row; columns: courseColumns;"></tr>
 
                     </table>
-                    <mat-paginator #firstTable [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
                 </div>
             </div>
 

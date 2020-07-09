@@ -8,6 +8,8 @@ import { StudentServiceService } from '../student-service.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RestService } from '../rest.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-professor-view',
@@ -32,6 +34,9 @@ export class ProfessorViewComponent implements OnInit {
   //PROFILE
   public socialNetworksProfessor:any = [];
   public listSocialNetworks:any = [];
+  public selectedSocialNetworks: { name: string, id: number};
+  public defaultItemSocialNetworks: { name: string, id: number } = { name: "Seleccione", id: null };
+  public addSocialNetworkForm: FormGroup;
 
   //NEWS
   @ViewChild('sv') private scrollView;
@@ -46,6 +51,10 @@ export class ProfessorViewComponent implements OnInit {
   public currentNewsName:any;
 
   //COURSES
+  courseColumns: string[] = ['initials', 'course_Name', 'credits', 'professor_name', 'professor_lastname'];
+  enrolledCourses:any = [];
+  @ViewChild(MatPaginator, {static: true}) paginatorCourses: MatPaginator;
+  dataSourceCourses = new MatTableDataSource<any>();
 
   //PUBLIC CONSULTATION
   public professorCourses:any = [];
@@ -85,6 +94,10 @@ export class ProfessorViewComponent implements OnInit {
       this.repliesPrivateConsultationForm = this.fb.group({
         repliesPrivate: ['', [Validators.required]]
       })
+
+      this.addSocialNetworkForm= this.fb.group({
+        urlSocialNetwork: ['', [Validators.required]]
+      })
     }
 
   //START
@@ -96,6 +109,7 @@ export class ProfessorViewComponent implements OnInit {
     this.getAppointment();
     this.getSocialNetworks();
     this.getSocialNetworksCatalog();
+    this.getEnrolledCourses();
   }
 
   public onSelect(ev: DrawerSelectEvent): void {
@@ -132,22 +146,38 @@ export class ProfessorViewComponent implements OnInit {
   }
 
   //PROFILE
-  editProfile() {
-    
-  }
-
   getSocialNetworks() {
     this.socialNetworksProfessor = [];
     this.professorService.GetSocialNetworksById(this.route.snapshot.params['id']).subscribe((data: {}) => {
       this.socialNetworksProfessor = data;
     });
-
   }
 
   getSocialNetworksCatalog() {
     this.listSocialNetworks = [];
     this.professorService.getListSocialNetworksCatalog().subscribe((data: {}) => {
       this.listSocialNetworks = data;
+    });
+  }
+
+  socialNetworksChange(value) {
+    this.selectedSocialNetworks = value;
+  }
+
+  addSocialNetwork() {
+    if (!this.addSocialNetworkForm.valid) {
+      return;
+    }
+
+    var socialNetwork = {
+      "userId": this.route.snapshot.params['id'],
+      "url": this.addSocialNetworkForm.value.urlSocialNetwork,
+      "socialNetworksNameId": this.selectedSocialNetworks.id
+    };
+
+    this.professorService.addSocialNetwork(socialNetwork).subscribe((data: {}) => {
+      this.openSnackBar('Red social añadida', '');
+      this.getSocialNetworks();
     });
 
   }
@@ -171,6 +201,17 @@ export class ProfessorViewComponent implements OnInit {
     this.comments = [];
     this.restService.getCommentsByIdNews(id).subscribe((data: {}) => {
       this.comments = data;
+    });
+  }
+
+  //COURSES
+  getEnrolledCourses() {
+    this.enrolledCourses = [];
+    this.courseService.getProfessorCourses(this.route.snapshot.params['id']).subscribe((data: {}) => {
+      this.enrolledCourses = data;
+      console.log(this.enrolledCourses);
+      this.dataSourceCourses = new MatTableDataSource<any>(this.enrolledCourses);
+      this.dataSourceCourses.paginator = this.paginatorCourses;
     });
   }
 
@@ -242,8 +283,6 @@ export class ProfessorViewComponent implements OnInit {
       "motive": this.repliesPublicConsultationForm.value.repliesForm,
       "dateTime": yyyy+'-'+mm+'-'+dd
     };
-
-    console.log(replies);
 
     this.courseService.addRepliesPublicConsultation(replies).subscribe((result) => {
       this.showRepliesPublicConsultation(id);
@@ -344,14 +383,29 @@ export class ProfessorViewComponent implements OnInit {
   }
 
   acceptAppointment(id) {
+    var appointment = {
+      "appointmentId": id,
+      "accepted": 1
+    };
 
+    this.courseService.updateStatusAppointment(appointment).subscribe((result) => {
+      this.getAppointment();
+    });
   }
 
   denyAppointment(id) {
+    var appointment = {
+      "appointmentId": id,
+      "accepted": 0
+    };
 
+    this.courseService.updateStatusAppointment(appointment).subscribe((result) => {
+      this.getAppointment();
+    });
   }
   
   get repliesForm() { return this.repliesPublicConsultationForm.get('repliesForm'); }
   get repliesPrivate() { return this.repliesPrivateConsultationForm.get('repliesPrivate'); }
+  get urlSocialNetwork() { return this.addSocialNetworkForm.get('urlSocialNetwork'); }
 
 }

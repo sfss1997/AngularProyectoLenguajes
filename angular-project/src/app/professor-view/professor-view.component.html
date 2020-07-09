@@ -34,15 +34,24 @@
                     </a>
                 </li>
             </ul>
+            <hr style="width:75%;" style="border-color:rgb(109, 166, 241);" />
             <h3 id="subtitle">Agregar Redes Sociales</h3>
-            <label class="control-label">Url:</label>
-            <input class="form-control" id="socialNetworkURL"> 
-            <!-- <kendo-dropdownlist [data]="provinces" [textField]="'name'" [valueField]="'id'"
-      (valueChange)="provinceChange($event)" [defaultItem]="defaultItemProvinces" [value]="selectedProvince">
-    </kendo-dropdownlist> -->
-    <button mat-button id="btnSocialNetwork">Ingresar</button>
-
-            <button mat-button (click)="editProfile()">Editar perfil</button>
+            <form [formGroup]="addSocialNetworkForm" (ngSubmit)="addSocialNetwork()" #formDir="ngForm">
+                <label class="control-label">Url:</label>
+                <input class="form-control" id="socialNetworkURL" placeholder="https://www.facebook.com/user"
+                    formControlName="urlSocialNetwork" name="urlSocialNetwork" autocomplete="off">
+                    <label class="control-label">Red social:</label>
+                <kendo-dropdownlist [data]="listSocialNetworks" [textField]="'name'" [valueField]="'id'"
+                    (valueChange)="socialNetworksChange($event)" [defaultItem]="defaultItemSocialNetworks"
+                    [value]="selectedSocialNetworks">
+                </kendo-dropdownlist>
+                <br>
+                <button mat-raised-button id="btnSendResponse" type="submit">Agregar</button>
+                <span class="text-danger"
+                    *ngIf="addSocialNetworkForm.hasError('required', 'urlSocialNetwork') && formDir.submitted">
+                    Debe escribir una url.
+                </span>
+            </form>
         </div>
 
         <div *ngIf="selected === 'Noticias'">
@@ -85,6 +94,40 @@
         </div>
 
         <div *ngIf="selected === 'Cursos'">
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSourceCourses">
+
+                    <ng-container matColumnDef="initials">
+                        <th mat-header-cell *matHeaderCellDef> Siglas </th>
+                        <td mat-cell *matCellDef="let course"> {{course.initials}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="course_Name">
+                        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                        <td mat-cell *matCellDef="let course"> {{course.course_Name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="credits">
+                        <th mat-header-cell *matHeaderCellDef> Créditos </th>
+                        <td mat-cell *matCellDef="let course"> {{course.credits}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="professor_name">
+                        <th mat-header-cell *matHeaderCellDef> Nombre Profesor </th>
+                        <td mat-cell *matCellDef="let course"> {{course.professor_name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="professor_lastname">
+                        <th mat-header-cell *matHeaderCellDef> Apellido Profesor </th>
+                        <td mat-cell *matCellDef="let course"> {{course.professor_lastname}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="courseColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: courseColumns;"></tr>
+
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
         </div>
 
         <div id="publicConsultUl" *ngIf="selected === 'Consulta pública'">

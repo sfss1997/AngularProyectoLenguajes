@@ -37,6 +37,9 @@ export class StudentViewComponent implements OnInit {
   uploadRemoveUrl = 'removeUrl';
   public socialNetworksStudent:any = [];
   public listSocialNetworks:any = [];
+  public selectedSocialNetworks: { name: string, id: number};
+  public defaultItemSocialNetworks: { name: string, id: number } = { name: "Seleccione", id: null };
+  public addSocialNetworkForm: FormGroup;
 
   //NEWS
   @ViewChild('sv') private scrollView;
@@ -52,9 +55,9 @@ export class StudentViewComponent implements OnInit {
 
   //COURSES
   courseColumns: string[] = ['initials', 'courseName', 'credits', 'professor_name'];
-  dataSourceCourses = new MatTableDataSource<any>();
-  @ViewChild('firstTable') paginatorCourses: MatPaginator;
   enrolledCourses:any = [];
+  @ViewChild(MatPaginator, {static: true}) paginatorCourses: MatPaginator;
+  dataSourceCourses = new MatTableDataSource<any>();
 
   //PUBLIC CONSULTATION
   public studentCourses:any = [];
@@ -113,6 +116,10 @@ export class StudentViewComponent implements OnInit {
       this.appointmentForm = this.fb.group({
         appointment: ['', [Validators.required]]
       })
+
+      this.addSocialNetworkForm= this.fb.group({
+        urlSocialNetwork: ['', [Validators.required]]
+      })
     }
 
   //START
@@ -163,16 +170,11 @@ export class StudentViewComponent implements OnInit {
   }
 
   //PROFILE
-  editProfile() {
-
-  }
-
   getSocialNetworks() {
     this.socialNetworksStudent = [];
     this.studentService.getSocialNetworksById(this.route.snapshot.params['id']).subscribe((data: {}) => {
       this.socialNetworksStudent = data;
     });
-
   }
 
   getSocialNetworksCatalog() {
@@ -180,7 +182,27 @@ export class StudentViewComponent implements OnInit {
     this.studentService.getListSocialNetworksCatalog().subscribe((data: {}) => {
       this.listSocialNetworks = data;
     });
+  }
 
+  socialNetworksChange(value) {
+    this.selectedSocialNetworks = value;
+  }
+
+  addSocialNetwork() {
+    if (!this.addSocialNetworkForm.valid) {
+      return;
+    }
+
+    var socialNetwork = {
+      "userId": this.route.snapshot.params['id'],
+      "url": this.addSocialNetworkForm.value.urlSocialNetwork,
+      "socialNetworksNameId": this.selectedSocialNetworks.id
+    };
+
+    this.studentService.addSocialNetwork(socialNetwork).subscribe((data: {}) => {
+      this.openSnackBar('Red social añadida', '');
+      this.getSocialNetworks();
+    });
   }
 
   //NEWS
@@ -242,20 +264,21 @@ export class StudentViewComponent implements OnInit {
   }
 
   getPublicConsultation() {
-    this.publicConsultation= [];
+    this.publicConsultation = [];
 
-    this.studentCourses= [];
+    this.studentCourses = [];
     this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((result: {}) => {
       this.studentCourses = result;
-      
+
       this.studentCourses.forEach(s => {
         this.publicConsult = {
           "courseId": s.course_id,
           "professorId": s.professor_id
         };
-      });
-      this.courseService.getPublicConsultation(this.publicConsult).subscribe((result: {}) => {
-        this.publicConsultation = result;
+
+        this.courseService.getPublicConsultation(this.publicConsult).subscribe((result: {}) => {
+          this.publicConsultation = result;
+        });
       });
     });
   }
@@ -363,23 +386,24 @@ export class StudentViewComponent implements OnInit {
     this.privateConsultation = [];
     var privateConsult = {};
 
-    this.studentCourses= [];
+    this.studentCourses = [];
     this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((result: {}) => {
       this.studentCourses = result;
-      
+
       this.studentCourses.forEach(s => {
         privateConsult = {
           "courseId": s.course_id,
           "professorId": s.professor_id
         };
-      });
 
-      this.courseService.getPrivateMessage(privateConsult).subscribe((result: {}) => {
-        this.listPrivateConsultation = result;
-        this.listPrivateConsultation.forEach(p => {
-          if (p.student_id == this.route.snapshot.params['id']) {
-            this.privateConsultation = this.listPrivateConsultation;
-          }
+
+        this.courseService.getPrivateMessage(privateConsult).subscribe((result: {}) => {
+          this.listPrivateConsultation = result;
+          this.listPrivateConsultation.forEach(p => {
+            if (p.student_id == this.route.snapshot.params['id']) {
+              this.privateConsultation = this.listPrivateConsultation;
+            }
+          });
         });
       });
     });
@@ -453,20 +477,20 @@ export class StudentViewComponent implements OnInit {
     this.listAppointment = [];
     var appointment = {};
 
-    this.studentCourses= [];
+    this.studentCourses = [];
     this.courseService.getStudentCourses(this.route.snapshot.params['id']).subscribe((result: {}) => {
       this.studentCourses = result;
-      
+
       this.studentCourses.forEach(s => {
         appointment = {
           "courseId": s.course_id,
           "professorId": s.professor_id,
           "studentId": this.route.snapshot.params['id']
         };
-      });
 
-      this.courseService.getAppointment(appointment).subscribe((result: {}) => {
-        this.listAppointment = result;
+        this.courseService.getAppointment(appointment).subscribe((result: {}) => {
+          this.listAppointment = result;
+        });
       });
     });
   }
